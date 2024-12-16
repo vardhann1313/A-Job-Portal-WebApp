@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const PORT = process.env.PORT
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
@@ -9,10 +8,11 @@ app.use(cors())
 app.use(bodyParser.json())
 
 // Routers ----------------------------------------
-const {companyRouter, userRouter} = require('./Route')
+const {companyRouter, userRouter, hrRouter} = require('./Route')
 
 // dotenv file ------------------------------------
 require('dotenv').config()
+const PORT = process.env.PORT
 
 // Basic endpoint ---------------------------------
 app.get('/', (req, res) => {
@@ -24,6 +24,9 @@ app.use('/api/company', companyRouter)
 
 // user authentication endpoint -------------------
 app.use('/api/user', userRouter)
+
+// HR authentication endpoint -------------------
+app.use('/api/hr', hrRouter)
 
 
 // Server -----------------------------------------
