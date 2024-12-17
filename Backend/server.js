@@ -8,7 +8,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 // Routers ----------------------------------------
-const {companyRouter, userRouter, hrRouter} = require('./Route')
+const {companyRouter, seekerRouter, hrRouter} = require('./Route')
 
 // dotenv file ------------------------------------
 require('dotenv').config()
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 app.use('/api/company', companyRouter)
 
 // user authentication endpoint -------------------
-app.use('/api/user', userRouter)
+app.use('/api/seeker', seekerRouter)
 
 // HR authentication endpoint -------------------
 app.use('/api/hr', hrRouter)

@@ -1,8 +1,14 @@
 const express = require('express')
 const router = express.Router()
 
-const {login} = require('../Controller/hrController')
+const {login, signup} = require('../Controller/hrController')
+const {loginValidation, signupValidation} = require('../Middleware/hrValidation')
 
-router.post('/login', login)
+// For role based access ----------------
+const {authenticateToken, authorizeRole} = require('../Middleware/roleAuthorization')
+
+
+router.post('/signup', authenticateToken, authorizeRole('company'), signupValidation, signup)
+router.post('/login', loginValidation, login)
 
 module.exports = router
