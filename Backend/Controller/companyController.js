@@ -57,12 +57,12 @@ const login = async (req, res) => {
         }
 
         const jwtToken = jwt.sign(
-            {username: company[0].username, _id: company[0].company_id},
-            process.env.JWT_SECRET_COMPANY,
+            {username: company[0].username, _id: company[0].company_id, role: "company"},
+            process.env.JWT_SECRET,
             {expiresIn: '24h'}
         )
 
-        return res.status(201).json({
+        return res.status(200).json({
             message: 'Login succesfully !', 
             company,
             jwtToken,
