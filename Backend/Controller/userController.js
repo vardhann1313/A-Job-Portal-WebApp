@@ -30,6 +30,33 @@ const signup = async (req, res) => {
     }
 }
 
+const update = async (req, res) => {
+    let conn ;
+    try {
+        conn = await db.getConnection()
+
+        const {seeker_name, location, qualification, DOB, email} = req.body
+        const seeker_id = req.user._id
+
+        const query = 'UPDATE Seeker SET seeker_name=?, location=?, qualification=?, email=?, dob=? WHERE seeker_id=?'
+        const [result] = await conn.execute(query, [seeker_name, location, qualification, email, DOB, seeker_id])
+
+        return res.status(201).json({
+            message: 'User updated succesfully !',
+            AffectedRows: result.affectedRows,
+            success: true
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Process failed ', error,
+            success: false
+        })
+    }finally{
+        conn.release()
+    }
+}
+
 const login = async (req, res) => {
     let conn ;
     try {
@@ -47,7 +74,6 @@ const login = async (req, res) => {
             })
         }
 
-        console.log(seeker)
         const dbPass = seeker[0].password_hash
         const isPassEqual = await bcrypt.compare(password, dbPass)
         if(!isPassEqual){
@@ -80,7 +106,43 @@ const login = async (req, res) => {
     }
 }
 
+const getAllJobs = async (req, res) => {
+    let conn;
+    try {
+        conn = await db.getConnection()
+
+        const query = 'SELECT * FROM JOB WHERE is_active = true'
+        const [result] = await conn.execute(query)
+
+        console.log(result)
+
+        if(result.AffectedRows == 0){
+            return res.status(404).json({
+                message: "No job found !",
+                result
+            })
+        }
+
+        return res.status(201).json({
+            message: "Fetched successfully !",
+            success: true,
+            result
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Something went wrong !', error,
+            success: false
+        })
+    }finally{
+        conn.release()
+    }
+}
+
+// Exporting -----------------------------
 module.exports = {
     signup,
-    login
+    login,
+    update,
+    getAllJobs
 }
