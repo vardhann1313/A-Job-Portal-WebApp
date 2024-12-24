@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
+
+import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -10,7 +13,6 @@ const CompanySignup = () => {
     company_name: "",
     description: "",
     location: "",
-    qualification: "",
     username: "",
     password: "",
   });
@@ -23,11 +25,45 @@ const CompanySignup = () => {
     setSignupInfo(copySignupInfo);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(signupInfo);
-    navigate("/company/login");
+    const { company_name, description, location, username, password } =
+      signupInfo;
+
+    if (!company_name || !description || !location || !username || !password) {
+      return handleError("All fields are required !");
+    }
+
+    try {
+      const url = "http://localhost:8080/api/company/signup";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(signupInfo),
+      });
+
+      const result = await response.json();
+
+      console.log(result);
+      const { success, message, error } = result;
+
+      if (success) {
+        handleSuccess(message);
+        setTimeout(() => {
+          navigate("/company/login");
+        }, 2000);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
+      } else if (!success) {
+        handleError(message);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (
@@ -38,7 +74,7 @@ const CompanySignup = () => {
           <h1 className="font-bold text-2xl text-center mb-2">
             Company signup
           </h1>
-          <form onSubmit={handleSubmit} >
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col m-2">
               <label htmlFor="company_name">Company name :</label>
               <input
@@ -81,10 +117,10 @@ const CompanySignup = () => {
               />
             </div>
             <div className="flex flex-col m-2">
-              <label htmlFor="pass">Password :</label>
+              <label htmlFor="password">Password :</label>
               <input
                 type="password"
-                name="pass"
+                name="password"
                 className="border-2 rounded-md p-2 mt-2"
                 onChange={handleChange}
                 value={signupInfo.password}
@@ -105,6 +141,7 @@ const CompanySignup = () => {
           </span>
         </div>
       </div>
+      <ToastContainer />
       <Footer />
     </>
   );

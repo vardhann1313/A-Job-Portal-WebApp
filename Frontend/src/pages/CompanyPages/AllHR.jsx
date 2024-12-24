@@ -1,13 +1,13 @@
 import React from 'react'
+
 import CompanyNavbar from '../Navbar/CompanyNavbar'
 
-const CompanyDashboard = () => {
+const AllHR = () => {
   return (
     <>
-    <CompanyNavbar />
+      <CompanyNavbar />
     </>
-    
   )
 }
 
-export default CompanyDashboard
+export default AllHR

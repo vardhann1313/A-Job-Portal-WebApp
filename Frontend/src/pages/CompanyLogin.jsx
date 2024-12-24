@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 
 const CompanyLogin = () => {
   const navigate = useNavigate();
@@ -19,11 +21,45 @@ const CompanyLogin = () => {
     setLoginInfo(copyLoginInfo);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(loginInfo);
-    navigate("/company/dashboard");
+    const { username, password } = loginInfo;
+    if (!username || !password) {
+      handleError("All fields are required !");
+    }
+
+    try {
+      const url = "http://localhost:8080/api/company/login";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
+      });
+
+      const result = await response.json();
+      const { success, message, name, role, jwtToken, error } = result;
+
+      if (success) {
+        handleSuccess(message);
+        localStorage.setItem("jwtToken", jwtToken);
+        localStorage.setItem("loggedInUser", name);
+        localStorage.setItem("role", role)
+
+        setTimeout(() => {
+          navigate("/company/dashboard");
+        }, 2000);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
+      } else if (!success) {
+        handleError(message);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (
@@ -32,7 +68,7 @@ const CompanyLogin = () => {
       <div className="w-full h-screen">
         <div className="border-2 flex flex-col p-4 m-10 max-w-96 mx-auto rounded-md">
           <h1 className="font-bold text-2xl text-center mb-2">Company login</h1>
-          <form onSubmit={handleSubmit} >
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col m-2">
               <label htmlFor="username">Username :</label>
               <input
@@ -69,6 +105,7 @@ const CompanyLogin = () => {
           </span>
         </div>
       </div>
+      <ToastContainer />
       <Footer />
     </>
   );
