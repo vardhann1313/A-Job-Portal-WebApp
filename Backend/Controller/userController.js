@@ -22,7 +22,7 @@ const signup = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({
-            message: 'Registration failed ', error,
+            message: 'Registration failed ',
             success: false
         })
     }finally{
@@ -49,7 +49,7 @@ const update = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({
-            message: 'Process failed ', error,
+            message: 'Process failed ',
             success: false
         })
     }finally{
@@ -89,16 +89,19 @@ const login = async (req, res) => {
             {expiresIn: '24h'}
         )
 
+        const name = seeker[0].seeker_name
+        const role = "SEEKER"
         return res.status(200).json({
             message: 'Login succesfully !', 
-            seeker,
+            name,
+            role,
             jwtToken,
             success: true
         })
 
     } catch (error) {
         return res.status(500).json({
-            message: 'Something went wrong !', error,
+            message: 'Something went wrong !',
             success: false
         })
     }finally{
@@ -131,7 +134,7 @@ const getAllJobs = async (req, res) => {
         
     } catch (error) {
         return res.status(500).json({
-            message: 'Something went wrong !', error,
+            message: 'Something went wrong !',
             success: false
         })
     }finally{

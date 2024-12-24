@@ -24,7 +24,7 @@ const signup = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({
-            message: 'Registration failed ', error,
+            message: 'Registration failed ',
             success: false
         })
     }finally{
@@ -64,16 +64,19 @@ const login = async (req, res) => {
             {expiresIn: '24h'}
         )
 
+        const name = hr[0].hr_name
+        const role = "HR"
         return res.status(200).json({
             message: 'Login succesfully !', 
-            hr,
+            name,
+            role,
             jwtToken,
             success: true
         })
 
     } catch (error) {
         return res.status(500).json({
-            message: 'Something went wrong !', error,
+            message: 'Something went wrong !',
             success: false
         })
     }finally{
