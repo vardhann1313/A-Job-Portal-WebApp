@@ -8,9 +8,21 @@ const signup = async (req, res) => {
     let conn ;
     try {
         conn = await db.getConnection()
-
+        
         const {hr_name, email, password} = req.body
         const company_id = req.user._id
+        
+        // Checking already registered HR ------------
+        const query_check = `SELECT * FROM HR WHERE email = '${email}'`
+        const [result_check] = await conn.execute(query_check)
+        const id = result_check[0].hr_id
+        if(id){
+            return res.status(401).json({
+                message: 'HR already registered !',
+                success: false
+            })
+        }
+        // -------------------------------------------
 
         const hashPassword = await bcrypt.hash(password, 11)
         const query = 'INSERT INTO HR (hr_name, email, password_hash, company_id) VALUES (?, ?, ?, ?)'
