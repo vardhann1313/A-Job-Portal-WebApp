@@ -15,8 +15,7 @@ const signup = async (req, res) => {
         // Checking already registered HR ------------
         const query_check = `SELECT * FROM HR WHERE email = '${email}'`
         const [result_check] = await conn.execute(query_check)
-        const id = result_check[0].hr_id
-        if(id){
+        if(result_check.length != 0){
             return res.status(401).json({
                 message: 'HR already registered !',
                 success: false

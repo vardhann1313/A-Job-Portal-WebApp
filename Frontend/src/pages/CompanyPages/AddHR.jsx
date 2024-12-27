@@ -5,63 +5,61 @@ import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
 import { useNavigate } from "react-router-dom";
 
 const AddHR = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [hrInfo, setHRInfo] = useState({
     hr_name: "",
     email: "",
-    password: ""
-  }) 
+    password: "",
+  });
 
   const handleChange = (e) => {
-    const {name, value} = e.target 
-    
-    const copyInfo = {...hrInfo}
-    copyInfo[name] = value
-    setHRInfo(copyInfo)
-  }
+    const { name, value } = e.target;
+
+    const copyInfo = { ...hrInfo };
+    copyInfo[name] = value;
+    setHRInfo(copyInfo);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const {hr_name, email, password} = hrInfo
-    if(!hr_name || !email || !password){
-      handleError('All fields are required !')
+    const { hr_name, email, password } = hrInfo;
+    if (!hr_name || !email || !password) {
+      handleError("All fields are required !");
     }
 
     try {
-      const url = "http://localhost:8080/api/hr/signup"
+      const url = "http://localhost:8080/api/hr/signup";
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "authorization": localStorage.getItem('jwtToken'),
-          "Content-Type": "application/json"
+          authorization: localStorage.getItem("jwtToken"),
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(hrInfo)
-      })
+        body: JSON.stringify(hrInfo),
+      });
 
-      const result = await response.json()
-      console.log(result)
+      const result = await response.json();
+      console.log(result);
 
-      const {success, message, error} = result 
+      const { success, message, error } = result;
 
-      if(success){
-        handleSuccess(message)
-        setTimeout(()=>{
-          navigate('/company/dashboard')
-        }, 2000)
-      }else if(error){
-        const details = error?.details[0].message
-        handleError(details)
-      }else if(!success){
-        handleError(message)
+      if (success) {
+        handleSuccess(message);
+        setTimeout(() => {
+          navigate("/company/dashboard");
+        }, 2000);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
+      } else if (!success) {
+        handleError(message);
       }
-      
     } catch (error) {
-      handleError(error)
+      handleError(error);
     }
-
-  }
+  };
 
   return (
     <>
@@ -80,17 +78,18 @@ const AddHR = () => {
 
           <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
             <div className="border-2 p-6 rounded-md max-w-xl lg:max-w-3xl">
-              
-
               <h1 className="text-center mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                Add HR 
+                Add HR
               </h1>
 
               <p className="text-center mt-4 leading-relaxed text-blue-500">
                 Add your HRs to start hiring . . .
               </p>
 
-              <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4 w-80">
+              <form
+                onSubmit={handleSubmit}
+                className="mt-8 flex flex-col gap-4 w-80"
+              >
                 <div className="">
                   <label
                     htmlFor="hr_name"
@@ -142,8 +141,9 @@ const AddHR = () => {
                   />
                 </div>
 
-                <button className="hover:text-white hover:bg-blue-600 text-blue-600 border-blue-400 border-2 rounded-md mt-4 p-2" >ADD</button>
-
+                <button className="hover:text-white hover:bg-blue-600 text-blue-600 border-blue-400 border-2 rounded-md mt-4 p-2">
+                  ADD
+                </button>
               </form>
             </div>
           </main>

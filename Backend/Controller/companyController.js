@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const db = require('../database')
 
 // Functions related to company Auth ----------------
-
+// Company signup -----------------------------------
 const signup = async (req, res) => {
     let conn ;
     try {
@@ -30,6 +30,7 @@ const signup = async (req, res) => {
     }
 }
 
+// Company login -------------------------
 const login = async (req, res) => {
     let conn ;
     try {
@@ -82,7 +83,65 @@ const login = async (req, res) => {
     }
 }
 
+// HR functions handled by company ----------
+// get All HRs -------------------------------
+
+const getAllHr = async (req, res) => {
+    const company_id = req.user._id
+    let conn 
+
+    try {
+        conn = await db.getConnection()
+
+        const query = `SELECT * FROM HR WHERE company_id = ${company_id}`
+        const [data] = await conn.execute(query)
+
+        return res.status(201).json({
+            message: "Fetched successfully !",
+            success: true,
+            data
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Something went wrong !',
+            success: false
+        })
+    }finally{
+        conn.release()
+    }
+}
+
+// Delete HR --------------------------------
+const deleteHr = async (req, res) => {
+    let conn 
+    try {
+        conn = await db.getConnection()
+
+        const hr_id = parseInt(req.params.id)
+        const query = `DELETE FROM HR WHERE hr_id = ${hr_id}`
+        const [result] = await conn.execute(query)
+
+        if(result.affectedRows != 0){
+            return res.status(201).json({
+                message: 'Deleted successfully !',
+                success: true
+            })
+        }
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Something went wrong !',
+            success: false
+        })
+    }finally{
+        conn.release()
+    }
+}
+
 module.exports = {
     signup,
-    login
+    login,
+    getAllHr,
+    deleteHr
 }
