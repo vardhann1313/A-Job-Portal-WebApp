@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { ToastContainer } from 'react-toastify'
-import { handleSuccess, handleError } from '../../Utilities/ToastMSG'
+import { ToastContainer } from "react-toastify";
+import { handleSuccess, handleError } from "../../Utilities/ToastMSG";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -22,12 +22,41 @@ const HRLogin = () => {
     setLoginInfo(copyLoginInfo);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(loginInfo);
-    handleSuccess("Login successfully !")
-    navigate("/hr/dashboard");
+    try {
+      const url = "http://localhost:8080/api/hr/login";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
+      });
+      const result = await response.json();
+
+      const { success, message, name, role, jwtToken, error } = result;
+
+      if (success) {
+        handleSuccess(message);
+        localStorage.setItem("jwtToken", jwtToken);
+        localStorage.setItem("loggedInUser", name);
+        localStorage.setItem("role", role);
+
+        setTimeout(() => {
+          navigate("/hr/dashboard");
+        }, 2000);
+      }else if(error){
+        const details = error?.details[0].message
+        handleError(details)
+      }else if(!success){
+        handleError(message)
+      }
+
+    } catch (error) {
+      handleError(message);
+    }
   };
 
   return (

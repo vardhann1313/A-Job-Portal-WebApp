@@ -9,7 +9,7 @@ router.post('/signup', signupValidation, signup)
 router.post('/login', loginValidation, login)
 
 // HR APIs -----------------------------
-router.get('/getallhr', authenticateToken, authorizeRole('company'), getAllHr)
-router.delete('/deletehr:id', authenticateToken, authorizeRole('company'), deleteHr)
+router.get('/getallhr', authenticateToken, authorizeRole('COMPANY'), getAllHr)
+router.delete('/deletehr:id', authenticateToken, authorizeRole('COMPANY'), deleteHr)
 
 module.exports = router

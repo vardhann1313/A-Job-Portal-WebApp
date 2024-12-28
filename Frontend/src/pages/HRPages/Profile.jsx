@@ -1,12 +1,12 @@
 import React from 'react'
 
-import CompanyNavbar from '../Navbar/CompanyNavbar'
+import HRNavbar from '../Navbar/HRNavbar'
 
 const Profile = () => {
   return (
     <>
-    <CompanyNavbar />
-      <h1>Profile</h1>
+    <HRNavbar />
+    <div>Profile</div>
     </>
   )
 }

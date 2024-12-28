@@ -21,9 +21,9 @@ const authenticateToken = (req, res, next) => {
     })
 }
 
-const authorizeRole = (requiredRole) => {
+const authorizeRole = (requiredRoles) => {
     return (req, res, next) => {
-        if(req.user.role != requiredRole){
+        if(!requiredRoles.includes(req.user.role)){
             return res.status(403).json({
                 message: "Access forbidden : Insufficient permission",
                 success: false

@@ -20,8 +20,13 @@ import HRDashboard from "../pages/dashboards/HRDashboard";
 import AllHR from "../pages/CompanyPages/AllHR";
 import AddHR from "../pages/CompanyPages/AddHR";
 import AllJobs from "../pages/CompanyPages/AllJobs";
-import EditJobs from "../pages/CompanyPages/EditJob";
 import Profile from "../pages/CompanyPages/Profile";
+
+// HR Pages routes ---
+import AddJob from "../pages/HRPages/AddJob";
+import HRAllJobs from "../pages/HRPages/AllJobs";
+import Application from "../pages/HRPages/Application";
+import HRProfile from "../pages/HRPages/Profile";
 
 const AppRoutes = () => {
 
@@ -53,7 +58,12 @@ const AppRoutes = () => {
         <Route path="/company/alljobs" element={<AllJobs />} />
         <Route path="/company/profile" element={<Profile />} />
         <Route path="/company/addhr" element={<AddHR />} />
-        <Route path="/company/editjob" element={<EditJobs />} />
+
+        {/* HRRoutes */}
+        <Route path="/hr/alljobs" element={<HRAllJobs />} />
+        <Route path="/hr/profile" element={<HRProfile />} />
+        <Route path="/hr/application" element={<Application />} />
+        <Route path="/hr/addjob" element={<AddJob />} />
       </Routes>
     </div>
   );

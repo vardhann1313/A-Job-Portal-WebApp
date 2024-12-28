@@ -1,29 +1,21 @@
 import React, { useState } from "react";
 
-import {handleError, handleSuccess} from '../../Utilities/ToastMSG'
+import HRNavbar from "../Navbar/HRNavbar";
+import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
+import { useNavigate } from "react-router-dom";
 
-const AdminJobCard = ({
-  job_id,
-  title,
-  location,
-  type,
-  role,
-  salary,
-  requirements,
-  is_active,
-  created_at,
-}) => {
+const AddJob = () => {
   const [jobData, setJobData] = useState({
-    title: title,
-    location: location,
-    type: type,
-    role: role,
-    salary: salary,
-    requirements: requirements,
-    is_active: is_active === 1 ? true : false
+    title: "",
+    location: "",
+    type: "Full-time",
+    role: "",
+    salary: 0,
+    requirements: "",
+    is_active: true,
   });
 
-  // Handle updation of job -----------------
+  // Taking user input and storing it -----
   const handleChange = (e) => {
     const { name, value } = e.target;
     const copyJobDAta = { ...jobData };
@@ -38,85 +30,60 @@ const AdminJobCard = ({
     setJobData(copyJobDAta);
   };
 
+  // Handling form submit -----
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const confirm = prompt("Are you sure !! \nType YES or NO");
-    if (confirm === "NO") {
+    const { title, location, role, requirements, is_active, type, salary } =
+      jobData;
+
+    if (!title || !location || !requirements || !role) {
+      handleError("All fields are mandatory !");
+    }
+
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (!jwtToken) {
+      handleError("Jwt Token needed !");
       return;
     }
-    if (confirm === "YES") {
-      try {
-        const url = `http://localhost:8080/api/hr/jobs/updateJob${job_id}`;
-        const response = await fetch(url, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: localStorage.getItem("jwtToken"),
-          },
-          body: JSON.stringify(jobData)
-        });
 
-        const result = await response.json();
-        const { message, success, error } = result;
-        console.log(jobData)
-        console.log(result)
+    try {
+      const url = "http://localhost:8080/api/hr/jobs/addJob";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: jwtToken,
+        },
+        body: JSON.stringify(jobData),
+      });
 
-        if (success) {
-          handleSuccess(message);
-        } else if (!success) {
-          handleError(message);
-        } else if (error) {
-          const details = error?.details[0].message;
-          handleError(details);
-        }
-      } catch (error) {
-        handleError(error);
+      const result = await response.json();
+
+      const { message, success, error } = result;
+
+      if (success) {
+        handleSuccess(message);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
+      } else if (!success) {
+        handleError(message);
       }
-    }
-  };
-
-  // Handle deletion of Job
-  const deleteJob = async () => {
-    const confirm = prompt("Are you sure !! \nType YES or NO");
-    if (confirm === "NO") {
-      return;
-    }
-    if (confirm === "YES") {
-      try {
-        const url = `http://localhost:8080/api/hr/jobs/deleteJob${job_id}`;
-        const response = await fetch(url, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: localStorage.getItem("jwtToken"),
-          },
-        });
-
-        const result = await response.json();
-        const { message, success, error } = result;
-
-        if (success) {
-          handleSuccess(message);
-        } else if (!success) {
-          handleError(message);
-        } else if (error) {
-          const details = error?.details[0].message;
-          handleError(details);
-        }
-      } catch (error) {
-        handleError(error);
-      }
+    } catch (error) {
+      handleError(error);
     }
   };
 
   return (
     <>
+      <HRNavbar />
+
       <section className="bg-gray-100">
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
             <h1 className="text-xl md:text-3xl text-blue-900 text-center mb-4 font-semibold">
-              Job Id : {job_id} || Created at : {created_at}
+              Job Post
             </h1>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -214,14 +181,7 @@ const AdminJobCard = ({
                   type="submit"
                   className="inline-block w-full rounded-lg border-2 border-blue-800 hover:bg-blue-800 hover:text-white px-5 py-3 font-medium text-blue-800 sm:w-auto"
                 >
-                  Save
-                </button>
-                <button
-                  type="button"
-                  className="inline-block w-full rounded-lg border-2 border-red-800 hover:bg-red-800 hover:text-white px-5 py-3 font-medium text-red-800 sm:w-auto mx-4"
-                  onClick={deleteJob}
-                >
-                  Delete
+                  Add
                 </button>
               </div>
             </form>
@@ -232,4 +192,4 @@ const AdminJobCard = ({
   );
 };
 
-export default AdminJobCard;
+export default AddJob;

@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
 
-import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
+import {handleError, handleSuccess} from '../../../Utilities/ToastMSG'
 
+import HRNavbar from "../Navbar/HRNavbar";
 import AdminJobCard from "../../assets/AdminJobCard";
-import CompanyNavbar from "../Navbar/CompanyNavbar";
 
 const AllJobs = () => {
   const [data, setData] = useState([]);
@@ -71,7 +71,7 @@ const AllJobs = () => {
 
   return (
     <>
-    <CompanyNavbar />
+      <HRNavbar />
       <div className="my-10 p-4 ">
         <DisplayCard data={data} />
       </div>

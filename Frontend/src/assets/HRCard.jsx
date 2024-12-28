@@ -53,15 +53,15 @@ const HRCard = ({ hr_id, hr_name, email, created_at }) => {
         </div>
 
         <div className="flex flex-col gap-2 m-2">
-          <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
-            Id : {hr_id}
-          </p>
-          <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+          <h2 className="mt-2 line-clamp-3">
+            ID : {hr_id}
+          </h2>
+          <h2 className="mt-2 line-clamp-3">
             Email : {email}
-          </p>
-          <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+          </h2>
+          <h2 className="mt-2 line-clamp-3">
             Created At : {created_at}
-          </p>
+          </h2>
         </div>
 
         <button

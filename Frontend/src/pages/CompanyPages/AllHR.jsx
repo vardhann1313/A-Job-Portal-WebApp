@@ -53,7 +53,7 @@ const AllHR = () => {
           hr_id={person.hr_id}
           hr_name={person.hr_name}
           email={person.email}
-          created_at={person.created_at}
+          created_at={person.created_at.substring(0, 10)}
         />
       ));
     } else {
@@ -63,8 +63,7 @@ const AllHR = () => {
 
   return (
     <>
-      <CompanyNavbar />
-
+    <CompanyNavbar />
       <div className="max-w-sm md:max-w-7xl mx-auto">
         <h1 className="md:text-3xl text-2xl text-blue-800 font-semibold my-4 mx-4">
           List of all HRs . . .
