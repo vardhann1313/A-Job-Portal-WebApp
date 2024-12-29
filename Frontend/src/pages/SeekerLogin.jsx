@@ -1,4 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
+
+import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -8,7 +11,7 @@ const SeekerLogin = () => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -19,11 +22,47 @@ const SeekerLogin = () => {
     setLoginInfo(copyLoginInfo);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(loginInfo);
-    navigate("/seeker/dashboard");
+    const { email, password } = loginInfo;
+    if (!email || !password) {
+      handleError("All fields are required !");
+      return;
+    }
+
+    try {
+      const url = "http://localhost:8080/api/seeker/login";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
+      });
+
+      const result = await response.json();
+      const { message, success, error, name, role, jwtToken } = result;
+
+      if (success) {
+        handleSuccess(message);
+
+        localStorage.setItem("jwtToken", jwtToken);
+        localStorage.setItem("loggedInUser", name);
+        localStorage.setItem("role", role);
+
+        setTimeout(() => {
+          navigate("/seeker/dashboard");
+        }, 2000);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
+      } else if (!success) {
+        handleError(message);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (
@@ -70,6 +109,7 @@ const SeekerLogin = () => {
         </div>
       </div>
       <Footer />
+      <ToastContainer />
     </>
   );
 };

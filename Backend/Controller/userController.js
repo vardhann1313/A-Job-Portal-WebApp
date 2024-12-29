@@ -10,6 +10,16 @@ const signup = async (req, res) => {
         conn = await db.getConnection()
 
         const {seeker_name, location, qualification, DOB, email, password} = req.body
+
+        const check_query = `SELECT * FROM Seeker WHERE email = '${email}'`
+        const [check_result] = await conn.execute(check_query)
+        if(check_result.affectedRows != 0){
+            return res.status(409).json({
+                message: "User already registered !",
+                success: false
+            })
+        }
+
         const hashPassword = await bcrypt.hash(password, 11)
         const query = 'INSERT INTO Seeker (seeker_name, location, qualification, email, dob, password_hash) VALUES (?, ?, ?, ?, ?, ?)'
         const [result] = await conn.execute(query, [seeker_name, location, qualification, email, DOB, hashPassword])
@@ -21,6 +31,7 @@ const signup = async (req, res) => {
         })
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             message: 'Registration failed ',
             success: false

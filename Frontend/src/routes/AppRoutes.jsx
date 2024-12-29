@@ -28,6 +28,11 @@ import HRAllJobs from "../pages/HRPages/AllJobs";
 import Application from "../pages/HRPages/Application";
 import HRProfile from "../pages/HRPages/Profile";
 
+// Seeker Pages routes ---
+import Jobs from "../pages/SeekerPages/Jobs";
+import SeekerApplication from "../pages/SeekerPages/Application";
+import SeekerProfile from "../pages/SeekerPages/Profile";
+
 const AppRoutes = () => {
 
   // Private Route
@@ -64,6 +69,11 @@ const AppRoutes = () => {
         <Route path="/hr/profile" element={<HRProfile />} />
         <Route path="/hr/application" element={<Application />} />
         <Route path="/hr/addjob" element={<AddJob />} />
+
+        {/* SeekerRoutes */}
+        <Route path="/seeker/jobs" element={<Jobs />} />
+        <Route path="/seeker/profile" element={<SeekerProfile />} />
+        <Route path="/seeker/application" element={<SeekerApplication />} />
       </Routes>
     </div>
   );

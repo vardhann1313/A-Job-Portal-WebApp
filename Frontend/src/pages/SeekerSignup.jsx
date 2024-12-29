@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { ToastContainer } from "react-toastify";
+
+import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 const SeekerSignup = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [signupInfo, setSignupInfo] = useState({
     seeker_name: "",
     email: "",
@@ -23,11 +26,50 @@ const SeekerSignup = () => {
     setSignupInfo(copySignupInfo);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(signupInfo);
-    navigate('/seeker/login')
+    const { seeker_name, email, location, qualification, DOB, password } =
+      signupInfo;
+    if (
+      !seeker_name ||
+      !email ||
+      !location ||
+      !qualification ||
+      !DOB ||
+      !password
+    ) {
+      handleError("All fields are required !");
+      return;
+    }
+
+    try {
+      const url = "http://localhost:8080/api/seeker/signup";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(signupInfo),
+      });
+
+      const result = await response.json();
+      const { message, success, error } = result;
+
+      if (success) {
+        handleSuccess(message);
+        setTimeout(() => {
+          navigate("/seeker/login");
+        }, 2000);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
+      } else if (!success) {
+        handleError(message);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   };
 
   return (
@@ -114,6 +156,7 @@ const SeekerSignup = () => {
         </div>
       </div>
       <Footer />
+      <ToastContainer />
     </>
   );
 };
