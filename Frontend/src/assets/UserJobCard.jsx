@@ -1,40 +1,104 @@
-import React from "react";
+import React, { useState } from "react";
 
-const UserJobCard = () => {
+import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
+
+const UserJobCard = ({
+  job_id,
+  title,
+  location,
+  type,
+  role,
+  salary,
+  requirements,
+  created_at,
+  company_name,
+}) => {
+  const [resume, setResume] = useState(null);
+
+  // Handling application -------------------------------------
+  const handleApply = async () => {
+    // Setting application data ------
+    const resumeTag = document.getElementById("resume");
+    const resume = resumeTag.files[0];
+    setResume(resume)
+    // -------------------------------
+
+    try {
+      if (!resume) {
+        handleError("Resume is mandatory !");
+        return;
+      }
+
+      const url = `http://localhost:8080/api/hr/jobs/apply${job_id}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          authorization: localStorage.getItem("jwtToken"),
+        },
+        body: JSON.stringify(resume),
+      });
+
+      const result = await response.json();
+      const { success, message, error } = result;
+
+      if (success) {
+        handleSuccess(message);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
+      } else if (!success) {
+        handleError(message);
+      }
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
   return (
     <>
-      <div id="webcrumbs">
-        <div className="w-[400px] rounded-lg bg-white shadow-lg p-6 relative overflow-hidden flex flex-col gap-8">
+      <div className="w-[406px]">
+        <div className="w-[400px] rounded-lg border-2 bg-white shadow-lg p-6 relative overflow-hidden flex flex-col gap-4">
           <div className="absolute -top-10 -right-10 w-[100px] h-[100px] bg-primary rounded-full opacity-10"></div>
           <div className="absolute top-4 -left-4 w-[60px] h-[60px] bg-primary rounded-full opacity-5"></div>
 
-          <h2 className="font-title text-2xl mb-4 relative z-10">
+          <h2 className="text-center font-title text-2xl relative z-10">
             Job Posting
           </h2>
 
-          <div className="relative z-10 space-y-4">
-            <div>
-              <h3 className="font-semibold text-lg">Software Developer</h3>
-              <p className="text-sm text-neutral-500">TechCorp Inc.</p>
+          <div className="relative z-10 space-y-2">
+            <div className="text-center">
+              <h2 className="font-semibold text-lg">{title}</h2>
+              <h3 className="text-neutral-500">{company_name}</h3>
             </div>
 
-            <div className="grid grid-cols-2 gap-y-2 text-sm">
+            <div className="grid grid-cols-2 gap-4 text-sm shadow-lg rounded-md p-4">
               <p>
-                <strong>Role:</strong> Frontend Developer
+                <strong>Role :</strong> {role}
               </p>
               <p>
-                <strong>Type:</strong> Full-time
+                <strong>Type :</strong> {type}
               </p>
               <p>
-                <strong>Salary:</strong> $70,000 - $90,000/year
+                <strong>Salary :</strong> {salary}/year
               </p>
               <p>
-                <strong>Location:</strong> Remote
+                <strong>Location :</strong> {location}
+              </p>
+            </div>
+            <div className="relative z-10 shadow-lg rounded-md p-4">
+              <p>
+                <strong>Posted On :</strong> {created_at}
+              </p>
+            </div>
+
+            <div className="relative z-10 shadow-lg rounded-md p-4">
+              <p>
+                <strong>Requirements :</strong> <br></br> {requirements}
               </p>
             </div>
           </div>
 
-          <div className="relative z-10">
+          <div className="relative z-10 shadow-lg rounded-md p-4">
             <label
               htmlFor="resume"
               className="block mb-2 text-sm font-medium text-neutral-700"
@@ -43,14 +107,17 @@ const UserJobCard = () => {
             </label>
             <input
               type="file"
-              id="resume"
               name="resume"
+              id="resume"
               className="block w-full text-sm text-neutral-700 border rounded-md p-2 focus:outline-primary-500"
             />
           </div>
 
-          <div className="relative z-10 text-right">
-            <button className="bg-primary text-white rounded-md px-6 py-2 hover:bg-primary-600">
+          <div className="relative text-center">
+            <button
+              onClick={handleApply}
+              className="bg-primary border-blue-800 border-2 text-blue-800 rounded-md px-6 py-2 hover:bg-blue-600 hover:text-white"
+            >
               Apply Now
             </button>
           </div>

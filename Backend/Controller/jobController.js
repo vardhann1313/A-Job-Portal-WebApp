@@ -153,9 +153,38 @@ const getJobs = async (req, res) => {
   }
 };
 
+// Apply to job ---------------
+const applyToJob = async (req, res) => {
+  let conn;
+  try {
+    conn = await db.getConnection();
+
+    const resumeBuffer = req.body;
+    const job_id = req.params.id;
+    const seeker_id = req.user._id;
+
+    const query =
+      "INSERT INTO Application (job_id, seeker_id, resume) VALUES (?, ?, ?)";
+    const [data] = await conn.execute(query, [job_id, seeker_id, resumeBuffer]);
+
+    return res.status(200).json({
+      message: "Applied successfully !",
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong ",
+      success: false,
+    });
+  } finally {
+    conn.release();
+  }
+};
+
 module.exports = {
   addJob,
   updateJob,
   deleteJob,
   getJobs,
+  applyToJob,
 };

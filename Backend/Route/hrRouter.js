@@ -8,7 +8,7 @@ const {loginValidation, signupValidation} = require('../Middleware/hrValidation'
 const {authenticateToken, authorizeRole} = require('../Middleware/roleAuthorization')
 
 
-router.post('/signup', authenticateToken, authorizeRole('company'), signupValidation, signup)
+router.post('/signup', authenticateToken, authorizeRole('COMPANY'), signupValidation, signup)
 router.post('/login', loginValidation, login)
 
 module.exports = router

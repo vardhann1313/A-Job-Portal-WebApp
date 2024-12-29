@@ -9,8 +9,8 @@ const {authenticateToken, authorizeRole} = require('../Middleware/roleAuthorizat
 
 router.post('/signup', signupValidation, signup)
 router.post('/login', loginValidation, login)
-router.put('/update', authenticateToken, authorizeRole('Seeker'), updateValidation, update)
+router.put('/update', authenticateToken, authorizeRole('SEEKER'), updateValidation, update)
 
-router.get('/getAllJobs', authenticateToken, authorizeRole('Seeker'), getAllJobs)
+router.get('/getAllJobs', authenticateToken, authorizeRole('SEEKER'), getAllJobs)
 
 module.exports = router
