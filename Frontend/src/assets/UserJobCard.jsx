@@ -15,19 +15,26 @@ const UserJobCard = ({
 }) => {
   const [resume, setResume] = useState(null);
 
-  // Handling application -------------------------------------
-  const handleApply = async () => {
-    // Setting application data ------
-    const resumeTag = document.getElementById("resume");
-    const resume = resumeTag.files[0];
-    setResume(resume)
-    // -------------------------------
+  // Handle resume upload -------------------------------------
+  const handleResume = (e) => {
+    const resumeInput = e.target.files[0];
+    if (resumeInput) {
+      console.log(resumeInput);
+      setResume(resumeInput);
+    }
+  };
 
+  // Handling application -------------------------------------
+  const handleApply = async (e) => {
+    e.preventDefault()
     try {
       if (!resume) {
         handleError("Resume is mandatory !");
         return;
       }
+
+      const formData = new FormData();
+      formData.append('resume', resume);
 
       const url = `http://localhost:8080/api/hr/jobs/apply${job_id}`;
       const response = await fetch(url, {
@@ -35,7 +42,7 @@ const UserJobCard = ({
         headers: {
           authorization: localStorage.getItem("jwtToken"),
         },
-        body: JSON.stringify(resume),
+        body: formData,
       });
 
       const result = await response.json();
@@ -91,7 +98,7 @@ const UserJobCard = ({
               </p>
             </div>
 
-            <div className="relative z-10 shadow-lg rounded-md p-4">
+            <div className="relative z-10 shadow-lg rounded-md p-4 h-40 overflow-y-scroll">
               <p>
                 <strong>Requirements :</strong> <br></br> {requirements}
               </p>
@@ -99,27 +106,30 @@ const UserJobCard = ({
           </div>
 
           <div className="relative z-10 shadow-lg rounded-md p-4">
-            <label
-              htmlFor="resume"
-              className="block mb-2 text-sm font-medium text-neutral-700"
-            >
-              Upload Resume
-            </label>
-            <input
-              type="file"
-              name="resume"
-              id="resume"
-              className="block w-full text-sm text-neutral-700 border rounded-md p-2 focus:outline-primary-500"
-            />
-          </div>
-
-          <div className="relative text-center">
-            <button
-              onClick={handleApply}
-              className="bg-primary border-blue-800 border-2 text-blue-800 rounded-md px-6 py-2 hover:bg-blue-600 hover:text-white"
-            >
-              Apply Now
-            </button>
+            <form onSubmit={handleApply} encType="multipart/form-data">
+              <label
+                htmlFor="resume"
+                className="block mb-2 text-sm font-medium text-neutral-700"
+              >
+                Upload Resume in pdf
+              </label>
+              <input
+                type="file"
+                name="resume"
+                id="resume"
+                accept=".pdf"
+                className="block w-full text-sm text-neutral-700 border rounded-md p-2 focus:outline-primary-500 mb-4"
+                onChange={handleResume}
+              />
+              <div className="relative text-center">
+                <button
+                  type="submit"
+                  className="bg-primary border-blue-800 border-2 text-blue-800 rounded-md px-6 py-2 hover:bg-blue-600 hover:text-white"
+                >
+                  Apply Now
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

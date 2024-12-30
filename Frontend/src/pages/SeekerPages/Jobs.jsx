@@ -78,7 +78,7 @@ const Jobs = () => {
       <SeekerNavbar />
       <div className="md:max-w-[1400px] mx-auto">
         <h1 className="text-center mt-8 text-2xl md:text-4xl text-blue-800 font-semibold">All jobs </h1>
-        <div className="grid gap-4 my-10">
+        <div className="my-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           <DisplayJobData data={data} />
         </div>
       </div>

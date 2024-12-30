@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 // Configure express to parse raw file ----
-const rawFileHandler = express.raw({ type: "*/*", limit: "10mb" });
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Authorizer --------------------
 const {
@@ -59,7 +60,7 @@ router.get(
 // Apply feature for seeker -------
 router.post(
   "/apply:id",
-  rawFileHandler,
+  upload.single('resume'),
   authenticateToken,
   authorizeRole(["SEEKER"]),
   applyToJob
