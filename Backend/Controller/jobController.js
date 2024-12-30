@@ -181,10 +181,63 @@ const applyToJob = async (req, res) => {
   }
 };
 
+// Get all applications by company id ----------
+const getAllApplications = async (req, res) => {
+  let conn;
+  try {
+    conn = await db.getConnection();
+
+    const role = req.user.role;
+    let company_id;
+    if (role === "HR") {
+      company_id = req.user.companyId;
+    } else {
+      company_id = req.user._id;
+    }
+
+    const query = `SELECT 
+	                      J.job_id,
+                        J.title, 
+                        J.type, 
+                        J.role, 
+                        J.salary, 
+                        J.requirements, 
+                        J.created_at, 
+                        H.hr_name, 
+                        A.application_id, 
+                        A.resume, 
+                        A.status, 
+                        A.applied_at, 
+                        S.seeker_name,
+                        S.email
+                    FROM Job J 
+                    INNER JOIN Application A ON J.job_id = A.job_id 
+                    LEFT JOIN Seeker S ON A.seeker_id = S.seeker_id
+                    LEFT JOIN HR H ON H.hr_id = J.hr_id 
+                    WHERE J.company_id = ${company_id}`;
+
+    const [data] = await conn.execute(query);
+
+    return res.status(201).json({
+      message: "Fetched successfully !",
+      data,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong ",
+      success: false,
+    });
+  } finally {
+    conn.release();
+  }
+};
+
 module.exports = {
   addJob,
   updateJob,
   deleteJob,
   getJobs,
   applyToJob,
+  getAllApplications,
 };

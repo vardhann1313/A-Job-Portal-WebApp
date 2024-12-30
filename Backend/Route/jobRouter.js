@@ -1,28 +1,77 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 // Configure express to parse raw file ----
-const rawFileHandler = express.raw({ type: '*/*', limit: '10mb' });
+const rawFileHandler = express.raw({ type: "*/*", limit: "10mb" });
 
 // Authorizer --------------------
-const {authenticateToken, authorizeRole} = require('../Middleware/roleAuthorization')
+const {
+  authenticateToken,
+  authorizeRole,
+} = require("../Middleware/roleAuthorization");
 
 // Validation - Insert Update ----
-const {insertJob} = require('../Middleware/jobValidation')
+const { insertJob } = require("../Middleware/jobValidation");
 
 // Job controllers ---------------
-const {addJob, updateJob, deleteJob, getJobs, applyToJob} = require('../Controller/jobController')
+const {
+  addJob,
+  updateJob,
+  deleteJob,
+  getJobs,
+  applyToJob,
+  getAllApplications,
+} = require("../Controller/jobController");
 
 // Routing -----------------------
-router.post('/addJob', authenticateToken, authorizeRole(['HR']), insertJob, addJob)
 
-router.put('/updateJob:id', authenticateToken, authorizeRole(['HR', 'COMPANY']), insertJob, updateJob)
+// Job APIs ----------------------
+router.post(
+  "/addJob",
+  authenticateToken,
+  authorizeRole(["HR"]),
+  insertJob,
+  addJob
+);
 
-router.delete('/deleteJob:id', authenticateToken, authorizeRole(['HR', 'COMPANY']), deleteJob)
+router.put(
+  "/updateJob:id",
+  authenticateToken,
+  authorizeRole(["HR", "COMPANY"]),
+  insertJob,
+  updateJob
+);
 
-router.get('/getJobs', authenticateToken, authorizeRole(['HR', 'COMPANY']), getJobs)
+router.delete(
+  "/deleteJob:id",
+  authenticateToken,
+  authorizeRole(["HR", "COMPANY"]),
+  deleteJob
+);
 
-router.post('/apply:id', rawFileHandler, authenticateToken, authorizeRole(['SEEKER']), applyToJob)
+router.get(
+  "/getJobs",
+  authenticateToken,
+  authorizeRole(["HR", "COMPANY"]),
+  getJobs
+);
 
-// Exporting -------------------- 
-module.exports = router
+// Apply feature for seeker -------
+router.post(
+  "/apply:id",
+  rawFileHandler,
+  authenticateToken,
+  authorizeRole(["SEEKER"]),
+  applyToJob
+);
+
+// Get all applications for HR and Company --------
+router.get(
+  "/getAllApplications",
+  authenticateToken,
+  authorizeRole(["HR", "COMPANY"]),
+  getAllApplications
+);
+
+// Exporting --------------------
+module.exports = router;

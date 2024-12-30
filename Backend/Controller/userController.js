@@ -174,10 +174,56 @@ const getAllJobs = async (req, res) => {
   }
 };
 
+// Get all applications -----------------
+const getApplications = async (req, res) => {
+  let conn;
+  try {
+    conn = await db.getConnection();
+
+    const seeker_id = req.user._id;
+    const query = `SELECT 
+	                      J.job_id,
+                        J.title, 
+                        J.type, 
+                        J.role, 
+                        J.salary, 
+                        J.requirements, 
+                        J.created_at, 
+                        C.company_name, 
+                        A.application_id, 
+                        A.resume, 
+                        A.status, 
+                        A.applied_at, 
+                        S.seeker_name,
+                        S.email
+                  FROM Job J 
+                  INNER JOIN Application A ON J.job_id = A.job_id 
+                  INNER JOIN Seeker S ON A.seeker_id = S.seeker_id
+                  LEFT JOIN Company C ON C.company_id = J.company_id 
+                  WHERE A.seeker_id = ${seeker_id}`
+
+    const [data] = await conn.execute(query)
+
+    return res.status(201).json({
+      message: "Fetched successfully !",
+      data,
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong !",
+      success: false,
+    });
+  } finally {
+    conn.release();
+  }
+};
+
 // Exporting -----------------------------
 module.exports = {
   signup,
   login,
   update,
   getAllJobs,
+  getApplications,
 };
