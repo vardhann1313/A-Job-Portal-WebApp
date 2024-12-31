@@ -69,10 +69,10 @@ const CompanyNavbar = () => {
 
                   <li>
                     <Link
-                      to="/company/profile"
+                      to="/company/applications"
                       className="text-gray-500 transition hover:text-blue-700 hover:font-semibold"
                     >
-                      Profile
+                      Application
                     </Link>
                   </li>
                 </ul>

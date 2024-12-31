@@ -66,15 +66,6 @@ const HRNavbar = () => {
                       Application
                     </Link>
                   </li>
-
-                  <li>
-                    <Link
-                      to="/hr/profile"
-                      className="text-gray-500 transition hover:text-blue-700 hover:font-semibold"
-                    >
-                      Profile
-                    </Link>
-                  </li>
                 </ul>
               </nav>
             </div>

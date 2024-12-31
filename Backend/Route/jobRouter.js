@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // Configure express to parse raw file ----
-const multer = require('multer');
+const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Authorizer --------------------
@@ -22,6 +22,7 @@ const {
   getJobs,
   applyToJob,
   getAllApplications,
+  respondOnApplication,
 } = require("../Controller/jobController");
 
 // Routing -----------------------
@@ -60,7 +61,7 @@ router.get(
 // Apply feature for seeker -------
 router.post(
   "/apply:id",
-  upload.single('resume'),
+  upload.single("resume"),
   authenticateToken,
   authorizeRole(["SEEKER"]),
   applyToJob
@@ -72,6 +73,14 @@ router.get(
   authenticateToken,
   authorizeRole(["HR", "COMPANY"]),
   getAllApplications
+);
+
+// Respond on a application for HR and Commpany -----
+router.put(
+  "/respond:id",
+  authenticateToken,
+  authorizeRole(["HR", "COMPANY"]),
+  respondOnApplication
 );
 
 // Exporting --------------------

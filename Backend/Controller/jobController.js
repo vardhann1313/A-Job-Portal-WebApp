@@ -172,7 +172,7 @@ const applyToJob = async (req, res) => {
       success: true,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({
       message: "Something went wrong ",
       success: false,
@@ -204,6 +204,7 @@ const getAllApplications = async (req, res) => {
                         J.salary, 
                         J.requirements, 
                         J.created_at, 
+                        J.location,
                         H.hr_name, 
                         A.application_id, 
                         A.resume, 
@@ -234,6 +235,32 @@ const getAllApplications = async (req, res) => {
   }
 };
 
+// Respond on applications ---------------------------
+const respondOnApplication = async (req, res) => {
+  let conn;
+  try {
+    conn = await db.getConnection();
+
+    const { status } = req.body;
+    const application_id = parseInt(req.params.id);
+
+    const query = `UPDATE Application SET status='${status}' WHERE application_id=${application_id}`;
+    const [result] = await conn.execute(query);
+
+    return res.status(201).json({
+      message: "Responded succesfully !",
+      success: true,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong ",
+      success: false,
+    });
+  } finally {
+    conn.release();
+  }
+};
+
 module.exports = {
   addJob,
   updateJob,
@@ -241,4 +268,5 @@ module.exports = {
   getJobs,
   applyToJob,
   getAllApplications,
+  respondOnApplication,
 };

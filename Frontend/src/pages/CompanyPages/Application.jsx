@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { ToastContainer } from "react-toastify";
 
-import HRNavbar from "../Navbar/HRNavbar";
+import CompanyNavbar from "../Navbar/CompanyNavbar";
 import AdminApplicationCard from "../../assets/AdminApplicationCard";
 
 const Application = () => {
@@ -72,11 +72,10 @@ const Application = () => {
         </h1>
       );
     }
-  };
-
+  }
   return (
     <>
-      <HRNavbar />
+      <CompanyNavbar />
       <div className="md:max-w-[1400px] mx-auto">
         <h1 className="text-center mt-8 text-2xl md:text-4xl text-blue-800 font-semibold">
           All applications
