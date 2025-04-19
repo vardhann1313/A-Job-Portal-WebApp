@@ -128,7 +128,7 @@ const getJobs = async (req, res) => {
       company_id = req.user._id;
     }
 
-    const query = `SELECT * FROM JOB WHERE company_id = ${company_id}`;
+    const query = `SELECT * FROM Job WHERE company_id = ${company_id}`;
     const [data] = await conn.execute(query);
 
     if (data.affectedRows == 0) {
