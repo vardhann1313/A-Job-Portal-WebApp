@@ -6,6 +6,7 @@ import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { API_BASEURL } from "../../Utilities/constant";
 
 const SeekerLogin = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const SeekerLogin = () => {
     }
 
     try {
-      const url = "http://localhost:8080/api/seeker/login";
+      const url = `${API_BASEURL}/seeker/login`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

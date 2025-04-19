@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 
+import { API_BASEURL } from "../../Utilities/constant";
+
 const CompanyLogin = () => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
@@ -30,7 +32,7 @@ const CompanyLogin = () => {
     }
 
     try {
-      const url = "http://localhost:8080/api/company/login";
+      const url = `${API_BASEURL}/company/login`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

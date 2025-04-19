@@ -5,6 +5,8 @@ import {handleError, handleSuccess} from '../../../Utilities/ToastMSG'
 import HRNavbar from "../Navbar/HRNavbar";
 import AdminJobCard from "../../assets/AdminJobCard";
 
+import {API_BASEURL} from "../../../Utilities/constant"
+
 const AllJobs = () => {
   const [data, setData] = useState([]);
 
@@ -16,7 +18,7 @@ const AllJobs = () => {
         return;
       }
 
-      const url = "http://localhost:8080/api/hr/jobs/getJobs";
+      const url = `${API_BASEURL}/hr/jobs/getJobs`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

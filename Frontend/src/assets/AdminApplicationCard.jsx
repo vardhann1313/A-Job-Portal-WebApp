@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 
+import {API_BASEURL} from "../../Utilities/constant"
+
 const AdminApplicationCard = ({
   job_id,
   title,
@@ -53,7 +55,7 @@ const AdminApplicationCard = ({
   // respond on application function --------------
   const handleRespond = async () => {
     try {
-      const url = `http://localhost:8080/api/hr/jobs/respond${application_id}`;
+      const url = `${API_BASEURL}/hr/jobs/respond${application_id}`;
       const response = await fetch(url, {
         method: "PUT",
         headers: {

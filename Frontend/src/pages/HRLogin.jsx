@@ -7,6 +7,8 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 
+import {API_BASEURL} from "../../Utilities/constant"
+
 const HRLogin = () => {
   const navigate = useNavigate();
   const [loginInfo, setLoginInfo] = useState({
@@ -26,7 +28,7 @@ const HRLogin = () => {
     e.preventDefault();
 
     try {
-      const url = "http://localhost:8080/api/hr/login";
+      const url = `${API_BASEURL}/hr/login`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

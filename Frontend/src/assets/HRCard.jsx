@@ -1,5 +1,6 @@
 import React from "react";
 import { handleSuccess } from "../../Utilities/ToastMSG";
+import {API_BASEURL} from "../../Utilities/constant"
 
 const HRCard = ({ hr_id, hr_name, email, created_at }) => {
   const deleteHR = async () => {
@@ -9,7 +10,7 @@ const HRCard = ({ hr_id, hr_name, email, created_at }) => {
     }
     if (confirm === "YES") {
       try {
-        const url = `http://localhost:8080/api/company/deletehr${hr_id}`;
+        const url = `${API_BASEURL}/company/deletehr${hr_id}`;
         const response = await fetch(url, {
           method: "DELETE",
           headers: {

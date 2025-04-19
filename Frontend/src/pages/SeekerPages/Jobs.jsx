@@ -6,6 +6,8 @@ import { handleError } from "../../../Utilities/ToastMSG";
 import UserJobCard from "../../assets/UserJobCard";
 import { ToastContainer } from "react-toastify";
 
+import {API_BASEURL} from "../../../Utilities/constant"
+
 const Jobs = () => {
   const [data, setData] = useState([]);
 
@@ -18,7 +20,7 @@ const Jobs = () => {
     }
 
     try {
-      const url = "http://localhost:8080/api/seeker/getAllJobs";
+      const url = `${API_BASEURL}/seeker/getAllJobs`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
+import {API_BASEURL} from "../../Utilities/constant"
 
 const UserJobCard = ({
   job_id,
@@ -36,7 +37,7 @@ const UserJobCard = ({
       const formData = new FormData();
       formData.append('resume', resume);
 
-      const url = `http://localhost:8080/api/hr/jobs/apply${job_id}`;
+      const url = `${API_BASEURL}/hr/jobs/apply${job_id}`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
