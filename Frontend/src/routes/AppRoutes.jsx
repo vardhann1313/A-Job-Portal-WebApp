@@ -40,10 +40,10 @@ const AppRoutes = () => {
 
   return (
     <div>
-      <Route path="/" element={<LandingPage />} />
       <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
       <Routes>
         {/* Authentication routes  */}
+        <Route path="/" element={<LandingPage />} />
         <Route path="/company/signup" element={<CompanySignup />} />
         <Route path="/company/login" element={<CompanyLogin />} />
         <Route path="/seeker/signup" element={<SeekerSignup />} />
