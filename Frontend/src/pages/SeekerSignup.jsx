@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+import {API_BASEURL} from "../../Utilities/constant"
+
 const SeekerSignup = () => {
   const navigate = useNavigate();
   const [signupInfo, setSignupInfo] = useState({
@@ -44,7 +46,7 @@ const SeekerSignup = () => {
     }
 
     try {
-      const url = "http://localhost:8080/api/seeker/signup";
+      const url = `${API_BASEURL}/seeker/signup`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

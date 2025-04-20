@@ -4,6 +4,8 @@ import HRNavbar from "../Navbar/HRNavbar";
 import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
 import { useNavigate } from "react-router-dom";
 
+import {API_BASEURL} from "../../../Utilities/constant"
+
 const AddJob = () => {
   const [jobData, setJobData] = useState({
     title: "",
@@ -48,7 +50,7 @@ const AddJob = () => {
     }
 
     try {
-      const url = "http://localhost:8080/api/hr/jobs/addJob";
+      const url = `${API_BASEURL}/hr/jobs/addJob`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

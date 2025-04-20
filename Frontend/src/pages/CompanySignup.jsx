@@ -6,6 +6,7 @@ import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { API_BASEURL } from "../../Utilities/constant";
 
 const CompanySignup = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const CompanySignup = () => {
     }
 
     try {
-      const url = "http://localhost:8080/api/company/signup";
+      const url = `${API_BASEURL}/company/signup`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

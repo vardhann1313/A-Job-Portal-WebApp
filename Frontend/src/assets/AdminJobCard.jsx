@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import {handleError, handleSuccess} from '../../Utilities/ToastMSG'
+import {API_BASEURL} from "../../Utilities/constant"
 
 const AdminJobCard = ({
   job_id,
@@ -47,7 +48,7 @@ const AdminJobCard = ({
     }
     if (confirm === "YES") {
       try {
-        const url = `http://localhost:8080/api/hr/jobs/updateJob${job_id}`;
+        const url = `${API_BASEURL}/hr/jobs/updateJob${job_id}`;
         const response = await fetch(url, {
           method: "PUT",
           headers: {
@@ -84,7 +85,7 @@ const AdminJobCard = ({
     }
     if (confirm === "YES") {
       try {
-        const url = `http://localhost:8080/api/hr/jobs/deleteJob${job_id}`;
+        const url = `${API_BASEURL}/hr/jobs/deleteJob${job_id}`;
         const response = await fetch(url, {
           method: "DELETE",
           headers: {

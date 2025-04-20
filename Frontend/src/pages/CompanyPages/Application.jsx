@@ -4,6 +4,8 @@ import { ToastContainer } from "react-toastify";
 import CompanyNavbar from "../Navbar/CompanyNavbar";
 import AdminApplicationCard from "../../assets/AdminApplicationCard";
 
+import {API_BASEURL} from "../../../Utilities/constant"
+
 const Application = () => {
   const [data, setData] = useState([]);
 
@@ -16,7 +18,7 @@ const Application = () => {
     }
 
     try {
-      const url = "http://localhost:8080/api/hr/jobs/getAllApplications";
+      const url = `${API_BASEURL}/hr/jobs/getAllApplications`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

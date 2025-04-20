@@ -20,7 +20,7 @@ import HRDashboard from "../pages/dashboards/HRDashboard";
 import AllHR from "../pages/CompanyPages/AllHR";
 import AddHR from "../pages/CompanyPages/AddHR";
 import AllJobs from "../pages/CompanyPages/AllJobs";
-import AllApplications from "../pages/CompanyPages/Application"
+import AllApplications from "../pages/CompanyPages/Application";
 
 // HR Pages routes ---
 import AddJob from "../pages/HRPages/AddJob";
@@ -32,7 +32,6 @@ import Jobs from "../pages/SeekerPages/Jobs";
 import SeekerApplication from "../pages/SeekerPages/Application";
 
 const AppRoutes = () => {
-
   // Private Route
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const PrivateRoute = ({ element }) => {

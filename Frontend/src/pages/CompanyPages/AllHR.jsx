@@ -4,6 +4,8 @@ import CompanyNavbar from "../Navbar/CompanyNavbar";
 import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
 import HRCard from "../../assets/HRCard";
 
+import {API_BASEURL} from "../../../Utilities/constant"
+
 const AllHR = () => {
   const [data, setData] = useState([]);
 
@@ -15,7 +17,7 @@ const AllHR = () => {
         return;
       }
 
-      const url = "http://localhost:8080/api/company/getallhr";
+      const url = `${API_BASEURL}/company/getallhr`;
       const response = await fetch(url, {
         method: "GET",
         headers: {

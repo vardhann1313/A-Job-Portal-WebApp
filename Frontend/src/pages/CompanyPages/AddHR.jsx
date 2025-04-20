@@ -4,6 +4,8 @@ import CompanyNavbar from "../Navbar/CompanyNavbar";
 import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
 import { useNavigate } from "react-router-dom";
 
+import {API_BASEURL} from "../../../Utilities/constant"
+
 const AddHR = () => {
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ const AddHR = () => {
     }
 
     try {
-      const url = "http://localhost:8080/api/hr/signup";
+      const url = `${API_BASEURL}/hr/signup`;
       const response = await fetch(url, {
         method: "POST",
         headers: {
