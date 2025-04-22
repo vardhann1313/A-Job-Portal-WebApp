@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../database");
+const { default: axios } = require("axios");
+const { response } = require("express");
 
 // Functions related to user Auth ----------------
 
@@ -220,6 +222,59 @@ const getApplications = async (req, res) => {
   }
 };
 
+// Generate interview questions ----------
+const generateQuestions = async (req, res) => {
+  const { jd } = req.body;
+
+  const prompt = `Generate 20 technical interview questions with answers based on the following job description: ${jd}.
+  Return the output in **JSON format**. The output should look like this:
+  
+  {
+    "question_One": {
+      "question": "Your question here",
+      "answer": "The corresponding answer here"
+    },
+    "question_Two": {
+      "question": "Your question here",
+      "answer": "The corresponding answer here"
+    },
+    ...
+  }`;
+
+  try {
+    const response = await axios.post(
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${process.env.OPEN_AI_KEY}`,
+      {
+        contents: [{ parts: [{text: prompt}] }]
+      },
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    let text = response.data.candidates[0].content.parts[0].text;
+
+    // 🔥 Strip markdown code block formatting
+    if (text.startsWith("```json") || text.startsWith("```")) {
+      text = text.replace(/```json|```/g, '').trim();
+    }
+
+    const questions = JSON.parse(text); // Now it's clean JSON
+    res.json({ questions });
+
+  } catch (err) {
+    console.error("OpenAI API Error:", err.response?.data || err.message);
+
+    res.status(500).json({
+      error: true,
+      message: "Failed to generate questions!",
+      err: err.response?.data || err.message
+    });
+  }
+};
+
 // Exporting -----------------------------
 module.exports = {
   signup,
@@ -227,4 +282,5 @@ module.exports = {
   update,
   getAllJobs,
   getApplications,
+  generateQuestions
 };
