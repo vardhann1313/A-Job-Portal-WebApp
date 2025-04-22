@@ -49,24 +49,31 @@ const AllJobs = () => {
 
   const DisplayCard = ({ data }) => {
     if (data && data.length > 0) {
-      return data.map((job) => (
-        <AdminJobCard
-          job_id={job.job_id}
-          title={job.title}
-          type={job.type}
-          location={job.location}
-          requirements={job.requirements}
-          role={job.role}
-          salary={job.salary}
-          is_active={job.is_active}
-          created_at={job.created_at.substring(0, 10)}
-        />
-      ));
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {data.map((job) => (
+            <AdminJobCard
+              key={job.job_id}
+              job_id={job.job_id}
+              title={job.title}
+              type={job.type}
+              location={job.location}
+              requirements={job.requirements}
+              role={job.role}
+              salary={job.salary}
+              is_active={job.is_active}
+              created_at={job.created_at.substring(0, 10)}
+            />
+          ))}
+        </div>
+      );
     } else {
       return (
-        <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4 mx-4">
-          No Job found!
-        </h1>
+        <div className="w-full flex justify-center items-center min-h-[50vh]">
+          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-blue-800 text-center font-semibold my-4 mx-4">
+            No Job found!
+          </h1>
+        </div>
       );
     }
   };
@@ -74,7 +81,7 @@ const AllJobs = () => {
   return (
     <>
       <HRNavbar />
-      <div className="my-10 p-4 ">
+      <div className="container mx-auto my-6 sm:my-8 md:my-10 px-4 sm:px-6 lg:px-8">
         <DisplayCard data={data} />
       </div>
     </>
