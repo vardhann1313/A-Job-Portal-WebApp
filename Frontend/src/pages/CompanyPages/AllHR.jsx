@@ -59,19 +59,19 @@ const AllHR = () => {
         />
       ));
     } else {
-      return <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4 mx-4">No HR found!</h1>;
+      return <h1 className="text-xl sm:text-2xl md:text-4xl text-blue-800 text-center font-semibold my-4 px-2">No HR found!</h1>;
     }
   };
 
   return (
     <>
     <CompanyNavbar />
-      <div className="max-w-sm md:max-w-7xl mx-auto">
-        <h1 className="md:text-3xl text-2xl text-blue-800 font-semibold my-4 mx-4">
+      <div className="w-full px-4 sm:px-6 md:max-w-7xl mx-auto">
+        <h1 className="text-xl sm:text-2xl md:text-3xl text-blue-800 font-semibold my-3 md:my-4">
           List of all HRs . . .
         </h1>
 
-        <div className="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="my-4 sm:my-6 md:my-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
           <DisplayCard data={data} />
         </div>
       </div>

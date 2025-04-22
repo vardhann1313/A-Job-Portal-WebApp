@@ -68,7 +68,7 @@ const AddHR = () => {
     <CompanyNavbar />
       <section className="bg-white">
         <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-          <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
+          <aside className="relative block h-32 sm:h-48 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
             <img
               alt=""
               src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
@@ -76,24 +76,24 @@ const AddHR = () => {
             />
           </aside>
 
-          <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-            <div className="border-2 p-6 rounded-md max-w-xl lg:max-w-3xl">
-              <h1 className="text-center mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+          <main className="flex items-center justify-center px-4 py-6 sm:px-8 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+            <div className="border-2 p-4 sm:p-6 rounded-md w-full max-w-md lg:max-w-xl">
+              <h1 className="text-center mt-2 sm:mt-6 text-xl font-bold text-gray-900 sm:text-2xl md:text-3xl lg:text-4xl">
                 Add HR
               </h1>
 
-              <p className="text-center mt-4 leading-relaxed text-blue-500">
+              <p className="text-center mt-2 sm:mt-4 leading-relaxed text-blue-500 text-sm sm:text-base">
                 Add your HRs to start hiring . . .
               </p>
 
               <form
                 onSubmit={handleSubmit}
-                className="mt-8 flex flex-col gap-4 w-80"
+                className="mt-4 sm:mt-8 flex flex-col gap-3 sm:gap-4 w-full"
               >
-                <div className="">
+                <div>
                   <label
                     htmlFor="hr_name"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-xs sm:text-sm font-medium text-gray-700"
                   >
                     Name :
                   </label>
@@ -107,10 +107,10 @@ const AddHR = () => {
                   />
                 </div>
 
-                <div className="">
+                <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-xs sm:text-sm font-medium text-gray-700"
                   >
                     Email :
                   </label>
@@ -124,10 +124,10 @@ const AddHR = () => {
                   />
                 </div>
 
-                <div className="">
+                <div>
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-xs sm:text-sm font-medium text-gray-700"
                   >
                     Password :
                   </label>
@@ -141,7 +141,7 @@ const AddHR = () => {
                   />
                 </div>
 
-                <button className="hover:text-white hover:bg-blue-600 text-blue-600 border-blue-400 border-2 rounded-md mt-4 p-2">
+                <button className="hover:text-white hover:bg-blue-600 text-blue-600 border-blue-400 border-2 rounded-md mt-2 sm:mt-4 p-2">
                   ADD
                 </button>
               </form>

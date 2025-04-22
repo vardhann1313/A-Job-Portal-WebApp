@@ -6,12 +6,11 @@ import { handleError } from "../../../Utilities/ToastMSG";
 import UserJobCard from "../../assets/UserJobCard";
 import { ToastContainer } from "react-toastify";
 
-import {API_BASEURL} from "../../../Utilities/constant"
+import { API_BASEURL } from "../../../Utilities/constant";
 
 const Jobs = () => {
   const [data, setData] = useState([]);
 
-  // Fetching all jobs ------------------------------
   const getAllJobs = async () => {
     const jwtToken = localStorage.getItem("jwtToken");
     if (!jwtToken) {
@@ -48,41 +47,44 @@ const Jobs = () => {
   useEffect(() => {
     getAllJobs();
   }, []);
-  // ----------------------------------------------
-  // Display job cards ----------------------------
+
   const DisplayJobData = ({ data }) => {
     if (data && data.length > 0) {
-      return data.map((job) => (
-        <UserJobCard
-          job_id={job.job_id}
-          title={job.title}
-          location={job.location}
-          type={job.type}
-          role={job.role}
-          salary={job.salary}
-          requirements={job.requirements}
-          created_at={job.created_at.substring(0, 10)}
-          company_name={job.company_name}
-        />
-      ));
+      return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {data.map((job) => (
+            <UserJobCard
+              key={job.job_id}
+              job_id={job.job_id}
+              title={job.title}
+              location={job.location}
+              type={job.type}
+              role={job.role}
+              salary={job.salary}
+              requirements={job.requirements}
+              created_at={job.created_at.substring(0, 10)}
+              company_name={job.company_name}
+            />
+          ))}
+        </div>
+      );
     } else {
       return (
-        <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4 mx-4">
+        <h1 className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl text-blue-800 font-semibold my-8">
           No Job found!
         </h1>
       );
     }
   };
-  // ------------------------------------------------
 
   return (
     <>
       <SeekerNavbar />
-      <div className="md:max-w-[1400px] mx-auto">
-        <h1 className="text-center mt-8 text-2xl md:text-4xl text-blue-800 font-semibold">All jobs </h1>
-        <div className="my-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          <DisplayJobData data={data} />
-        </div>
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 md:px-10 py-6">
+        <h1 className="text-center text-2xl sm:text-3xl md:text-4xl text-blue-800 font-bold mb-8">
+          All Jobs
+        </h1>
+        <DisplayJobData data={data} />
       </div>
       <ToastContainer />
     </>

@@ -49,22 +49,27 @@ const AllJobs = () => {
 
   const DisplayCard = ({ data }) => {
     if (data && data.length > 0) {
-      return data.map((job) => (
-        <AdminJobCard
-          job_id={job.job_id}
-          title={job.title}
-          type={job.type}
-          location={job.location}
-          requirements={job.requirements}
-          role={job.role}
-          salary={job.salary}
-          is_active={job.is_active}
-          created_at={job.created_at.substring(0, 10)}
-        />
-      ));
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {data.map((job) => (
+            <AdminJobCard
+              key={job.job_id}
+              job_id={job.job_id}
+              title={job.title}
+              type={job.type}
+              location={job.location}
+              requirements={job.requirements}
+              role={job.role}
+              salary={job.salary}
+              is_active={job.is_active}
+              created_at={job.created_at.substring(0, 10)}
+            />
+          ))}
+        </div>
+      );
     } else {
       return (
-        <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4 mx-4">
+        <h1 className="text-xl sm:text-2xl md:text-4xl text-blue-800 text-center font-semibold my-4">
           No Job found!
         </h1>
       );
@@ -73,8 +78,11 @@ const AllJobs = () => {
 
   return (
     <>
-    <CompanyNavbar />
-      <div className="my-10 p-4 ">
+      <CompanyNavbar />
+      <div className="container mx-auto my-4 sm:my-6 md:my-10 px-3 sm:px-4 md:px-6">
+        <h1 className="text-xl sm:text-2xl md:text-3xl text-blue-800 font-semibold mb-4 sm:mb-6">
+          Available Jobs
+        </h1>
         <DisplayCard data={data} />
       </div>
     </>

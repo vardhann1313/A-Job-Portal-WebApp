@@ -51,6 +51,7 @@ const Application = () => {
     if (data && data.length > 0) {
       return data.map((apps) => (
         <AdminApplicationCard
+          key={apps.application_id}
           job_id={apps.job_id}
           title={apps.title}
           type={apps.type}
@@ -69,7 +70,7 @@ const Application = () => {
       ));
     } else {
       return (
-        <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4 mx-4">
+        <h1 className="text-xl sm:text-2xl md:text-4xl text-blue-800 text-center font-semibold my-4 px-4">
           No Application found!
         </h1>
       );
@@ -78,11 +79,11 @@ const Application = () => {
   return (
     <>
       <CompanyNavbar />
-      <div className="md:max-w-[1400px] mx-auto">
-        <h1 className="text-center mt-8 text-2xl md:text-4xl text-blue-800 font-semibold">
+      <div className="w-full px-4 sm:px-6 md:px-8 md:max-w-[1400px] mx-auto">
+        <h1 className="text-center mt-4 sm:mt-6 md:mt-8 text-xl sm:text-2xl md:text-4xl text-blue-800 font-semibold">
           All applications
         </h1>
-        <div className="my-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="my-4 sm:my-6 md:my-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
           <DisplayApplicationData data={data} />
         </div>
       </div>

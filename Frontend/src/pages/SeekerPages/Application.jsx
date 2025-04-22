@@ -3,13 +3,11 @@ import { ToastContainer } from "react-toastify";
 import SeekerNavbar from "../Navbar/SeekerNavbar";
 import UserApplicationCard from "../../assets/UserApplicationCard";
 import { handleError } from "../../../Utilities/ToastMSG";
-
-import {API_BASEURL} from "../../../Utilities/constant"
+import { API_BASEURL } from "../../../Utilities/constant";
 
 const Application = () => {
   const [data, setData] = useState([]);
 
-  // Fetching all applications ------------------
   const getApplications = async () => {
     const jwtToken = localStorage.getItem("jwtToken");
     if (!jwtToken) {
@@ -46,30 +44,20 @@ const Application = () => {
     getApplications();
   }, []);
 
-  // Displaying all applications ----------------
   const DisplayApplicationData = ({ data }) => {
     if (data && data.length > 0) {
-      return data.map((apps) => (
-        <UserApplicationCard
-          title={apps.title}
-          type={apps.type}
-          role={apps.role}
-          salary={apps.salary}
-          requirements={apps.requirements}
-          created_at={apps.created_at.substring(0, 10)}
-          company_name={apps.company_name}
-          location={apps.location}
-          resume={apps.resume}
-          status={apps.status}
-          applied_at={apps.applied_at.substring(0, 10)}
-          seeker_name={apps.seeker_name}
-        />
-      ));
+      return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {data.map((apps, index) => (
+            <UserApplicationCard key={index} data={apps} />
+          ))}
+        </div>
+      );
     } else {
       return (
-        <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4 mx-4">
+        <div className="text-center text-gray-600 py-8 text-lg">
           No Application found!
-        </h1>
+        </div>
       );
     }
   };
@@ -77,13 +65,12 @@ const Application = () => {
   return (
     <>
       <SeekerNavbar />
-      <div className="md:max-w-[1400px] mx-auto">
-        <h1 className="text-center mt-8 text-2xl md:text-4xl text-blue-800 font-semibold">
-          All applications
-        </h1>
-        <div className="my-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          <DisplayApplicationData data={data} />
-        </div>
+      <div className="px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-6 max-w-screen-xl mx-auto">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 mb-6 text-center">
+          All Applications
+        </h2>
+
+        <DisplayApplicationData data={data} />
       </div>
       <ToastContainer />
     </>
