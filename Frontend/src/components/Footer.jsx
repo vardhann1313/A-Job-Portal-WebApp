@@ -1,7 +1,9 @@
 import React from "react";
 import logo from "../../public/image/logo.png";
 
-const footer = () => {
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <div>
       <footer className="bg-gray-100 border-gray-200 border-2">
@@ -9,7 +11,7 @@ const footer = () => {
           <div className="sm:flex sm:items-center sm:justify-between">
             <img className="w-18 h-12" src={logo} alt="Logo" />
             <p className="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right">
-              Copyright &copy; 2024. All rights reserved.
+              Copyright &copy; {currentYear}. All rights reserved.
             </p>
           </div>
         </div>
@@ -18,4 +20,4 @@ const footer = () => {
   );
 };
 
-export default footer;
+export default Footer;
