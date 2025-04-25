@@ -7,6 +7,7 @@ const {
   update,
   getAllJobs,
   getApplications,
+  generateQuestions
 } = require("../Controller/userController");
 const {
   loginValidation,
@@ -45,6 +46,14 @@ router.get(
   authenticateToken,
   authorizeRole("SEEKER"),
   getApplications
+);
+
+// Generate interview questions ----------
+router.post(
+  "/generateQuestions",
+  authenticateToken,
+  authorizeRole("SEEKER"),
+  generateQuestions
 );
 
 module.exports = router;
