@@ -6,11 +6,14 @@ const Footer = () => {
 
   return (
     <div>
-      <footer className="bg-gray-100 border-gray-200 border-2">
-        <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="sm:flex sm:items-center sm:justify-between">
-            <img className="w-18 h-12" src={logo} alt="Logo" />
-            <p className="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right">
+      <footer className="bg-blue-800 text-white">
+        <div className="mx-auto max-w-screen-xl px-4 py-6 sm:px-6 lg:px-8">
+          <div className="sm:flex sm:items-center sm:justify-between flex flex-col items-center">
+            {/* Logo */}
+            <img className="w-18 h-12 mb-4 sm:mb-0" src={logo} alt="Logo" />
+
+            {/* Copyright Text */}
+            <p className="text-center text-sm lg:text-right">
               Copyright &copy; {currentYear}. All rights reserved.
             </p>
           </div>

@@ -23,6 +23,7 @@ const {
   applyToJob,
   getAllApplications,
   respondOnApplication,
+  get_score
 } = require("../Controller/jobController");
 
 // Routing -----------------------
@@ -82,6 +83,14 @@ router.put(
   authorizeRole(["HR", "COMPANY"]),
   respondOnApplication
 );
+
+// JD TO RESUME SCORE 
+router.get(
+  "/get-score:id",
+  //authenticateToken,
+  //authorizeRole(["HR", "COMPANY"]),
+  get_score
+)
 
 // Exporting --------------------
 module.exports = router;

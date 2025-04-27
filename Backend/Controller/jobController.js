@@ -1,5 +1,11 @@
 const db = require("../database");
 
+// Get Score related functions ---------------
+const {
+  extractTextFromPdfBuffer,
+  getMatchScore,
+} = require("../AI_Agent/Agents");
+
 // Functions related to Job ------------------
 
 // Add job -----------------------------------
@@ -262,6 +268,50 @@ const respondOnApplication = async (req, res) => {
   }
 };
 
+// Get score function
+const get_score = async (req, res) => {
+  let conn;
+  try {
+    conn = await db.getConnection();
+
+    const application_id = parseInt(req.params.id);
+
+    // Query execution ----
+    const query = `SELECT 
+                      j.requirements,
+                      a.resume
+                    FROM Application a
+                    INNER JOIN Job j ON a.job_id = j.job_id
+                    WHERE application_id = ${application_id}`;
+
+    const [result] = await conn.execute(query);
+
+    // Destructure data from query ----
+    const jd_text = result[0].requirements;
+    const resume_text = extractTextFromPdfBuffer(result[0].resume);
+
+    // Calling gemini for score ----
+    const score = await getMatchScore(jd_text, resume_text);
+
+    // sending response ----
+    return res.status(200).json({
+      success: true,
+      message: "got score !",
+      score: score,
+    });
+  } catch (error) {
+    // Error handling response ----
+    console.log(error.message);
+    return res.status(500).json({
+      message: "Something went wrong ",
+      success: false,
+    });
+  } finally {
+    // Releasing connection ----
+    conn.release();
+  }
+};
+
 module.exports = {
   addJob,
   updateJob,
@@ -270,4 +320,5 @@ module.exports = {
   applyToJob,
   getAllApplications,
   respondOnApplication,
+  get_score,
 };

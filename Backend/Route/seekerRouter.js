@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+// Configure express to parse raw file ----
+// const multer = require("multer");
+// const upload = multer({ storage: multer.memoryStorage() });
+
 const {
   signup,
   login,

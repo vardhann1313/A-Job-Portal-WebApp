@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
 
 import {API_BASEURL} from "../../Utilities/constant"
@@ -51,6 +51,31 @@ const AdminApplicationCard = ({
       handleError("Error downloading file !");
     }
   };
+
+  const [score, setScore] = useState("No score");
+  // fetch score ----------------------------------
+  const get_score = async () => {
+    try {
+      setScore("Getting...")
+      const url = `${API_BASEURL}/hr/jobs/get-score${application_id}`
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("jwtToken"),
+        },
+      })
+
+      const result = await response.json();
+      const {score} = result;
+      console.log(score)
+      setScore(score);
+      
+    } catch (error) {
+      setScore("Try again")
+      console.log(error)
+    }
+  }
 
   // respond on application function --------------
   const handleRespond = async () => {
@@ -171,6 +196,9 @@ const AdminApplicationCard = ({
               Respond
             </button>
           </div>
+          <button onClick={get_score}>
+            Get score : {score}
+          </button>
         </div>
       </div>
     </>

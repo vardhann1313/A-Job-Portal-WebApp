@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../database");
-const { default: axios } = require("axios");
-const { response } = require("express");
+
+// AI helper function ----------------------------
+const {callGemini} = require("../AI_Agent/geminiHelper")
 
 // Functions related to user Auth ----------------
 
@@ -224,7 +225,10 @@ const getApplications = async (req, res) => {
 
 // Generate interview questions ----------
 const generateQuestions = async (req, res) => {
-  const { jd } = req.body;
+  let { jd } = req.body;
+
+  // Clean the job description to remove unnecessary newlines and extra spaces
+  jd = jd.replace(/\n/g, " ").trim();
 
   const prompt = `Generate 20 technical interview questions with answers based on the following job description: ${jd}.
   Return the output in **JSON format**. The output should look like this:
@@ -242,19 +246,7 @@ const generateQuestions = async (req, res) => {
   }`;
 
   try {
-    const response = await axios.post(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${process.env.OPEN_AI_KEY}`,
-      {
-        contents: [{ parts: [{text: prompt}] }]
-      },
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    );
-
-    let text = response.data.candidates[0].content.parts[0].text;
+    let text =  await callGemini(prompt)
 
     // 🔥 Strip markdown code block formatting
     if (text.startsWith("```json") || text.startsWith("```")) {

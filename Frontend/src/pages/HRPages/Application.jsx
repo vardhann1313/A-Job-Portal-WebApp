@@ -51,6 +51,7 @@ const Application = () => {
     if (data && data.length > 0) {
       return data.map((apps) => (
         <AdminApplicationCard
+          key={apps.application_id}
           job_id={apps.job_id}
           title={apps.title}
           type={apps.type}

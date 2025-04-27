@@ -51,6 +51,7 @@ const AllJobs = () => {
     if (data && data.length > 0) {
       return data.map((job) => (
         <AdminJobCard
+          key={job.job_id}
           job_id={job.job_id}
           title={job.title}
           type={job.type}

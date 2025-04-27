@@ -4,21 +4,16 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <div>
-      <header className="border-2 border-gray-200 bg-gray-100">
-        <div className="flex items-start gap-4 flex-row justify-between px-4 py-6 lg:mx-6">
-          <h1 className="text-3xl font-bold text-blue-900">
+      <header className="bg-blue-800 text-white shadow-md">
+        <div className="flex items-center justify-between px-6 py-4">
+          {/* Logo */}
+          <Link to="/" className="text-3xl font-bold">
             Job Portal
-          </h1>
+          </Link>
 
-          <div className="flex flex-row gap-2">
-            <Link
-              to="/"
-              className="font-bold text-blue-800 text-2xl border-2 border-blue-900 rounded-md px-4 py-2"
-            >
-              Home
-            </Link>
-
-            <h1 className="text-2xl font-bold border-2 bg-blue-900 px-4 py-2 rounded-md text-white">
+          {/* Version Badge */}
+          <div className="flex items-center">
+            <h1 className="text-lg md:text-xl font-semibold bg-white text-blue-800 px-4 py-2 rounded-md shadow-sm">
               JP - 2.0
             </h1>
           </div>
