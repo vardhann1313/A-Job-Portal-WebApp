@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 import HRNavbar from "../Navbar/HRNavbar";
-import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
-import { useNavigate } from "react-router-dom";
+import Footer from "../../components/Footer";
 
-import {API_BASEURL} from "../../../Utilities/constant"
+import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
+import { API_BASEURL } from "../../../Utilities/constant";
 
 const AddJob = () => {
   const [jobData, setJobData] = useState({
@@ -81,17 +81,17 @@ const AddJob = () => {
     <>
       <HRNavbar />
 
-      <section className="bg-gray-100">
-        <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-            <h1 className="text-xl md:text-3xl text-blue-900 text-center mb-4 font-semibold">
-              Job Post
+      <section className="bg-gradient-to-b from-blue-100 to-blue-300 min-h-screen py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-blue-800 text-center mb-6">
+              Add a New Job
             </h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <input
-                  className="w-full rounded-lg border-gray-200 p-3 text-sm border-2"
-                  placeholder="Title"
+                  className="w-full rounded-lg border border-gray-300 p-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
+                  placeholder="Job Title"
                   type="text"
                   name="title"
                   onChange={handleChange}
@@ -101,8 +101,8 @@ const AddJob = () => {
 
               <div>
                 <input
-                  className="w-full rounded-lg border-gray-200 p-3 text-sm border-2"
-                  placeholder="Job role"
+                  className="w-full rounded-lg border border-gray-300 p-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
+                  placeholder="Job Role"
                   type="text"
                   name="role"
                   onChange={handleChange}
@@ -110,10 +110,10 @@ const AddJob = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <input
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm border-2"
+                    className="w-full rounded-lg border border-gray-300 p-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
                     placeholder="Location"
                     type="text"
                     name="location"
@@ -124,8 +124,8 @@ const AddJob = () => {
 
                 <div>
                   <input
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm border-2"
-                    placeholder="Salary in numbers"
+                    className="w-full rounded-lg border border-gray-300 p-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
+                    placeholder="Salary (in numbers)"
                     type="number"
                     name="salary"
                     onChange={handleChange}
@@ -134,13 +134,13 @@ const AddJob = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="p-2 my-4" htmlFor="type">
-                    Job type :
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Job Type
                   </label>
                   <select
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm border-2"
+                    className="w-full rounded-lg border border-gray-300 p-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
                     name="type"
                     onChange={handleChange}
                     value={jobData.type}
@@ -152,11 +152,11 @@ const AddJob = () => {
                 </div>
 
                 <div>
-                  <label className="p-2 my-4" htmlFor="type">
-                    Is active :
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Is Active
                   </label>
                   <select
-                    className="w-full rounded-lg border-gray-200 p-3 text-sm border-2"
+                    className="w-full rounded-lg border border-gray-300 p-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
                     name="is_active"
                     onChange={handleChange}
                     value={jobData.is_active}
@@ -169,27 +169,28 @@ const AddJob = () => {
 
               <div>
                 <textarea
-                  className="w-full rounded-lg border-gray-200 p-3 text-sm border-2"
+                  className="w-full rounded-lg border border-gray-300 p-3 text-sm shadow-sm focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500"
                   placeholder="Requirements and Responsibilities"
-                  rows="8"
+                  rows="6"
                   name="requirements"
                   onChange={handleChange}
                   value={jobData.requirements}
                 ></textarea>
               </div>
 
-              <div className="mt-4">
+              <div>
                 <button
                   type="submit"
-                  className="inline-block w-full rounded-lg border-2 border-blue-800 hover:bg-blue-800 hover:text-white px-5 py-3 font-medium text-blue-800 sm:w-auto"
+                  className="w-full bg-blue-500 text-white py-3 px-5 rounded-lg font-medium hover:bg-blue-600 transition"
                 >
-                  Add
+                  Add Job
                 </button>
               </div>
             </form>
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

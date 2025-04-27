@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
-
 import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
-
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -20,7 +18,6 @@ const CompanySignup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     const copySignupInfo = { ...signupInfo };
     copySignupInfo[name] = value;
     setSignupInfo(copySignupInfo);
@@ -69,76 +66,103 @@ const CompanySignup = () => {
   return (
     <>
       <Navbar />
-      <div className="w-full h-screen">
-        <div className="border-2 flex flex-col p-4 m-10 max-w-96 mx-auto rounded-md">
-          <h1 className="font-bold text-2xl text-center mb-2">
-            Company signup
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-100 to-blue-300">
+        <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8">
+          <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">
+            Company Signup
           </h1>
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col m-2">
-              <label htmlFor="company_name">Company name :</label>
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                htmlFor="company_name"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Company Name
+              </label>
               <input
                 type="text"
                 name="company_name"
                 autoFocus
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={signupInfo.company_name}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="location">Location :</label>
+            <div>
+              <label
+                htmlFor="location"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={signupInfo.location}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="description">Description :</label>
-              <input
-                type="text"
+            <div className="md:col-span-2">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Description
+              </label>
+              <textarea
                 name="description"
-                className="border-2 rounded-md p-2 mt-2"
+                rows="3"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                 onChange={handleChange}
                 value={signupInfo.description}
-              />
+              ></textarea>
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="username">Username :</label>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Username
+              </label>
               <input
                 type="text"
                 name="username"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={signupInfo.username}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="password">Password :</label>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={signupInfo.password}
               />
             </div>
-            <button
-              className="border-blue-500 border-2 px-4 py-2 rounded-md my-4 w-full bg-blue-600 text-white hover:bg-blue-800"
-              type="submit"
-            >
-              Signup
-            </button>
+            <div className="md:col-span-2">
+              <button
+                className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-300"
+                type="submit"
+              >
+                Signup
+              </button>
+            </div>
           </form>
-          <span className="text-center">
-            Already have an account ?{" "}
-            <Link className="text-blue-900" to="/company/login">
+          <p className="mt-6 text-center text-sm text-blue-800">
+            Already have an account?{" "}
+            <Link className="font-medium text-blue-900 hover:underline" to="/company/login">
               Login
             </Link>
-          </span>
+          </p>
         </div>
       </div>
       <ToastContainer />

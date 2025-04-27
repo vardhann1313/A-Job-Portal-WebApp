@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
-
 import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
-
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
-import {API_BASEURL} from "../../Utilities/constant"
+import { API_BASEURL } from "../../Utilities/constant";
 
 const SeekerSignup = () => {
   const navigate = useNavigate();
@@ -22,7 +19,6 @@ const SeekerSignup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     const copySignupInfo = { ...signupInfo };
     copySignupInfo[name] = value;
     setSignupInfo(copySignupInfo);
@@ -77,84 +73,118 @@ const SeekerSignup = () => {
   return (
     <>
       <Navbar />
-      <div className="w-full h-screen">
-        <div className="border-2 flex flex-col p-4 m-10 max-w-96 mx-auto rounded-md">
-          <h1 className="font-bold text-2xl text-center mb-2">Seeker signup</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col m-2">
-              <label htmlFor="seeker_name">Name :</label>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-100 to-blue-300">
+        <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-8">
+          <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">
+            Seeker Signup
+          </h1>
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                htmlFor="seeker_name"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Name
+              </label>
               <input
                 type="text"
                 name="seeker_name"
                 autoFocus
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
-                value={signupInfo.name}
+                value={signupInfo.seeker_name}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="email">Email :</label>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Email
+              </label>
               <input
-                type="text"
+                type="email"
                 name="email"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={signupInfo.email}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="location">Location :</label>
+            <div>
+              <label
+                htmlFor="location"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={signupInfo.location}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="qualification">Qualification :</label>
+            <div>
+              <label
+                htmlFor="qualification"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Qualification
+              </label>
               <input
                 type="text"
                 name="qualification"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={signupInfo.qualification}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="DOB">Date of birth :</label>
+            <div>
+              <label
+                htmlFor="DOB"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Date of Birth
+              </label>
               <input
                 type="date"
                 name="DOB"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
-                value={signupInfo.dob}
+                value={signupInfo.DOB}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="password">Password :</label>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-blue-800 mb-2"
+              >
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
-                value={signupInfo.pass}
+                value={signupInfo.password}
               />
             </div>
-            <button
-              className="border-blue-500 border-2 px-4 py-2 rounded-md my-4 w-full bg-blue-600 text-white hover:bg-blue-800"
-              type="submit"
-            >
-              Signup
-            </button>
+            <div className="md:col-span-2">
+              <button
+                className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-300"
+                type="submit"
+              >
+                Signup
+              </button>
+            </div>
           </form>
-          <span className="text-center">
-            Already have an account ?{" "}
-            <Link className="text-blue-900" to="/seeker/login">
+          <p className="mt-6 text-center text-sm text-blue-800">
+            Already have an account?{" "}
+            <Link className="font-medium text-blue-900 hover:underline" to="/seeker/login">
               Login
             </Link>
-          </span>
+          </p>
         </div>
       </div>
       <Footer />

@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { handleError } from "../../Utilities/ToastMSG";
 import { API_BASEURL } from "../../Utilities/constant";
 
@@ -23,7 +22,7 @@ const UserApplicationCard = ({
 
   const handleDownloadResume = () => {
     if (!resume) {
-      handleError("Resume is missing !");
+      handleError("Resume is missing!");
       return;
     }
 
@@ -38,13 +37,13 @@ const UserApplicationCard = ({
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      handleError("Error downloading file !");
+      handleError("Error downloading file!");
     }
   };
 
   const handlePrepare = async () => {
     if (!requirements) {
-      handleError("Job description is missing !");
+      handleError("Job description is missing!");
       return;
     }
     setLoading(true);
@@ -68,11 +67,8 @@ const UserApplicationCard = ({
 
       const data = await response.json();
       setQuestions(data.questions);
-      setShowModal(true); // show the modal
-      console.log("Questions generated:", data);
-      // Optionally display questions or redirect somewhere
+      setShowModal(true);
     } catch (error) {
-      console.error("Error generating questions:", error);
       handleError("Failed to generate questions. Please try again later.");
     } finally {
       setLoading(false);
@@ -137,74 +133,56 @@ const UserApplicationCard = ({
           </div>
         </div>
       )}
-      <div className="w-[406px]">
-        <div className="w-[400px] rounded-lg border-2 bg-white shadow-lg p-6 relative overflow-hidden flex flex-col gap-4">
-          <div className="absolute -top-10 -right-10 w-[100px] h-[100px] bg-primary rounded-full opacity-10"></div>
-          <div className="absolute top-4 -left-4 w-[60px] h-[60px] bg-primary rounded-full opacity-5"></div>
-
-          <h2 className="text-center font-title text-2xl relative z-10">
-            Application status
-          </h2>
-
-          <div className="relative z-10 space-y-2">
-            <div className="text-center">
-              <h2 className="font-semibold text-lg">{title}</h2>
-              <h3 className="text-neutral-500">{company_name}</h3>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 text-sm shadow-lg rounded-md p-4">
-              <p>
-                <strong>Role :</strong> {role}
-              </p>
-              <p>
-                <strong>Type :</strong> {type}
-              </p>
-              <p>
-                <strong>Salary :</strong> {salary}/year
-              </p>
-              <p>
-                <strong>Location :</strong> {location}
-              </p>
-            </div>
-            <div className="relative z-10 shadow-lg rounded-md p-4">
-              <p>
-                <strong>Posted On :</strong> {created_at}
-              </p>
-            </div>
-            <div className="relative z-10 shadow-lg rounded-md p-4">
-              <p>
-                <strong>Applied On :</strong> {applied_at}
-              </p>
-            </div>
-            <div className="relative z-10 shadow-lg rounded-md p-4">
-              <p>
-                <strong>Status of application :</strong> {status}
-              </p>
-            </div>
-
-            <div className="relative z-10 shadow-lg rounded-md p-4 h-40 overflow-y-scroll">
-              <p>
-                <strong>Requirements :</strong> <br /> {requirements}
-              </p>
-            </div>
-          </div>
-
-          <button
-            className="border-2 rounded-md border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white px-4 py-2 w-full h-full"
-            onClick={handlePrepare}
-          >
-            Prepare
-          </button>
-
-          <div className="relative z-10 shadow-lg rounded-md p-4">
-            <button
-              className="border-2 rounded-md border-blue-800 text-blue-800 hover:bg-blue-800 hover:text-white px-4 py-2 w-full h-full"
-              onClick={handleDownloadResume}
-            >
-              Download Resume
-            </button>
-          </div>
+      <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition">
+        <h2 className="text-center font-semibold text-xl text-gray-800 mb-4">
+          Application Status
+        </h2>
+        <div className="text-center mb-4">
+          <h3 className="font-semibold text-lg">{title}</h3>
+          <p className="text-gray-500">{company_name}</p>
         </div>
+        <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
+          <p>
+            <strong>Role:</strong> {role}
+          </p>
+          <p>
+            <strong>Type:</strong> {type}
+          </p>
+          <p>
+            <strong>Salary:</strong> {salary}/year
+          </p>
+          <p>
+            <strong>Location:</strong> {location}
+          </p>
+        </div>
+        <div className="text-sm text-gray-600 mb-4">
+          <p>
+            <strong>Posted On:</strong> {created_at}
+          </p>
+          <p>
+            <strong>Applied On:</strong> {applied_at}
+          </p>
+          <p>
+            <strong>Status:</strong> {status}
+          </p>
+        </div>
+        <div className="text-sm text-gray-600 mb-4 max-h-40 overflow-y-auto">
+          <p>
+            <strong>Requirements:</strong> <br /> {requirements}
+          </p>
+        </div>
+        <button
+          onClick={handlePrepare}
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition mb-4"
+        >
+          Prepare
+        </button>
+        <button
+          onClick={handleDownloadResume}
+          className="w-full bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition"
+        >
+          Download Resume
+        </button>
       </div>
     </>
   );

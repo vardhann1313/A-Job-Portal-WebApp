@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 import CompanyNavbar from "../Navbar/CompanyNavbar";
+import Footer from "../../components/Footer";
+
 import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
 import { useNavigate } from "react-router-dom";
-
-import {API_BASEURL} from "../../../Utilities/constant"
+import { API_BASEURL } from "../../../Utilities/constant";
 
 const AddHR = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const AddHR = () => {
     const { hr_name, email, password } = hrInfo;
     if (!hr_name || !email || !password) {
       handleError("All fields are required !");
+      return;
     }
 
     try {
@@ -43,8 +45,6 @@ const AddHR = () => {
       });
 
       const result = await response.json();
-      console.log(result);
-
       const { success, message, error } = result;
 
       if (success) {
@@ -65,90 +65,74 @@ const AddHR = () => {
 
   return (
     <>
-    <CompanyNavbar />
-      <section className="bg-white">
-        <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-          <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
-            <img
-              alt=""
-              src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          </aside>
-
-          <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-            <div className="border-2 p-6 rounded-md max-w-xl lg:max-w-3xl">
-              <h1 className="text-center mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                Add HR
-              </h1>
-
-              <p className="text-center mt-4 leading-relaxed text-blue-500">
-                Add your HRs to start hiring . . .
-              </p>
-
-              <form
-                onSubmit={handleSubmit}
-                className="mt-8 flex flex-col gap-4 w-80"
+      <CompanyNavbar />
+      <section className="bg-gradient-to-b from-blue-100 to-blue-300 min-h-screen flex items-center justify-center">
+        <div className="bg-white shadow-lg rounded-lg p-8 max-w-lg w-full">
+          <h1 className="text-center text-3xl font-bold text-blue-800 mb-4">
+            Add HR
+          </h1>
+          <p className="text-center text-blue-600 mb-6">
+            Add your HRs to start hiring . . .
+          </p>
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+            <div>
+              <label
+                htmlFor="hr_name"
+                className="block text-sm font-medium text-gray-700"
               >
-                <div className="">
-                  <label
-                    htmlFor="hr_name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Name :
-                  </label>
-
-                  <input
-                    type="text"
-                    name="hr_name"
-                    className="p-2 mt-1 w-full rounded-md border-2 border-gray-100 bg-white text-sm text-gray-700 shadow-sm"
-                    onChange={handleChange}
-                    value={hrInfo.hr_name}
-                  />
-                </div>
-
-                <div className="">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Email :
-                  </label>
-
-                  <input
-                    type="email"
-                    name="email"
-                    className="p-2 mt-1 w-full rounded-md border-2 border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                    onChange={handleChange}
-                    value={hrInfo.email}
-                  />
-                </div>
-
-                <div className="">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Password :
-                  </label>
-
-                  <input
-                    type="password"
-                    name="password"
-                    className="p-2 mt-1 w-full rounded-md border-2 border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                    onChange={handleChange}
-                    value={hrInfo.password}
-                  />
-                </div>
-
-                <button className="hover:text-white hover:bg-blue-600 text-blue-600 border-blue-400 border-2 rounded-md mt-4 p-2">
-                  ADD
-                </button>
-              </form>
+                Name
+              </label>
+              <input
+                type="text"
+                name="hr_name"
+                className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+                value={hrInfo.hr_name}
+              />
             </div>
-          </main>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+                value={hrInfo.email}
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onChange={handleChange}
+                value={hrInfo.password}
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-300"
+            >
+              Add HR
+            </button>
+          </form>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

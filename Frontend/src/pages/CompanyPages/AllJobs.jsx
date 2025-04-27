@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from "react";
-
-import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
+import React, { useState, useEffect } from "react";
+import { handleError } from "../../../Utilities/ToastMSG";
 
 import AdminJobCard from "../../assets/AdminJobCard";
 import CompanyNavbar from "../Navbar/CompanyNavbar";
+import Footer from "../../components/Footer";
 
-import {API_BASEURL} from "../../../Utilities/constant"
+import { API_BASEURL } from "../../../Utilities/constant";
 
 const AllJobs = () => {
   const [data, setData] = useState([]);
@@ -51,6 +51,7 @@ const AllJobs = () => {
     if (data && data.length > 0) {
       return data.map((job) => (
         <AdminJobCard
+          key={job.job_id}
           job_id={job.job_id}
           title={job.title}
           type={job.type}
@@ -64,7 +65,7 @@ const AllJobs = () => {
       ));
     } else {
       return (
-        <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4 mx-4">
+        <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4">
           No Job found!
         </h1>
       );
@@ -73,10 +74,18 @@ const AllJobs = () => {
 
   return (
     <>
-    <CompanyNavbar />
-      <div className="my-10 p-4 ">
-        <DisplayCard data={data} />
-      </div>
+      <CompanyNavbar />
+      <section className="bg-gradient-to-b from-blue-100 to-blue-300 min-h-screen py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-blue-800 mb-6">
+            List of all Jobs
+          </h1>
+          <div className="grid grid-cols-1 gap-6">
+            <DisplayCard data={data} />
+          </div>
+        </div>
+      </section>
+      <Footer/>
     </>
   );
 };

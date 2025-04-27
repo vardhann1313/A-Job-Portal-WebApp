@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import CompanyNavbar from "../Navbar/CompanyNavbar";
-import { handleError, handleSuccess } from "../../../Utilities/ToastMSG";
+import Footer from "../../components/Footer";
 import HRCard from "../../assets/HRCard";
 
-import {API_BASEURL} from "../../../Utilities/constant"
+import { handleError } from "../../../Utilities/ToastMSG";
+import { API_BASEURL } from "../../../Utilities/constant";
 
 const AllHR = () => {
   const [data, setData] = useState([]);
@@ -46,35 +47,29 @@ const AllHR = () => {
     getHR();
   }, []);
 
-  const DisplayCard = ({ data }) => {
-    // console.log(data)
-    if (data && data.length > 0) {
-      return data.map((person) => (
-        <HRCard 
-          key={person.hr_id}
-          hr_id={person.hr_id}
-          hr_name={person.hr_name}
-          email={person.email}
-          created_at={person.created_at.substring(0, 10)}
-        />
-      ));
-    } else {
-      return <h1 className="md:text-4xl text-2xl text-blue-800 text-center font-semibold my-4 mx-4">No HR found!</h1>;
-    }
-  };
-
   return (
     <>
-    <CompanyNavbar />
-      <div className="max-w-sm md:max-w-7xl mx-auto">
-        <h1 className="md:text-3xl text-2xl text-blue-800 font-semibold my-4 mx-4">
-          List of all HRs . . .
-        </h1>
-
-        <div className="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <DisplayCard data={data} />
+      <CompanyNavbar />
+      <section className="bg-gradient-to-b from-blue-100 to-blue-300 min-h-screen py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-blue-800 mb-6">
+            List of all HRs
+          </h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {data.map((hr) => (
+              <HRCard
+                key={hr.hr_id}
+                hr_id={hr.hr_id}
+                hr_name={hr.hr_name}
+                email={hr.email}
+                created_at={hr.created_at.substring(0, 10)}
+                refreshHRList={getHR} // Pass the API call function as a prop
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
+      <Footer />
     </>
   );
 };

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
-
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { handleError, handleSuccess } from "../../Utilities/ToastMSG";
-
 import { API_BASEURL } from "../../Utilities/constant";
 
 const CompanyLogin = () => {
@@ -17,7 +15,6 @@ const CompanyLogin = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     const copyLoginInfo = { ...loginInfo };
     copyLoginInfo[name] = value;
     setLoginInfo(copyLoginInfo);
@@ -48,7 +45,7 @@ const CompanyLogin = () => {
         handleSuccess(message);
         localStorage.setItem("jwtToken", jwtToken);
         localStorage.setItem("loggedInUser", name);
-        localStorage.setItem("role", role)
+        localStorage.setItem("role", role);
 
         setTimeout(() => {
           navigate("/company/dashboard");
@@ -67,44 +64,56 @@ const CompanyLogin = () => {
   return (
     <>
       <Navbar />
-      <div className="w-full h-screen">
-        <div className="border-2 flex flex-col p-4 m-10 max-w-96 mx-auto rounded-md">
-          <h1 className="font-bold text-2xl text-center mb-2">Company login</h1>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-100 to-blue-300">
+        <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+          <h1 className="text-3xl font-bold text-center text-blue-800 mb-6">
+            Company Login
+          </h1>
           <form onSubmit={handleSubmit}>
-            <div className="flex flex-col m-2">
-              <label htmlFor="username">Username :</label>
+            <div className="mb-4">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-blue-800"
+              >
+                Username
+              </label>
               <input
                 type="text"
                 name="username"
                 autoFocus
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full mt-2 p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={loginInfo.username}
               />
             </div>
-            <div className="flex flex-col m-2">
-              <label htmlFor="password">Password :</label>
+            <div className="mb-6">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-blue-800"
+              >
+                Password
+              </label>
               <input
                 type="password"
                 name="password"
-                className="border-2 rounded-md p-2 mt-2"
+                className="w-full mt-2 p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onChange={handleChange}
                 value={loginInfo.password}
               />
             </div>
             <button
-              className="border-blue-500 border-2 px-4 py-2 rounded-md my-4 w-full bg-blue-600 text-white hover:bg-blue-800"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-300"
               type="submit"
             >
               Login
             </button>
           </form>
-          <span className="text-center">
-            Don't have an account ?
-            <Link className="text-blue-900" to="/company/signup">
+          <p className="mt-6 text-center text-sm text-blue-800">
+            Don't have an account?{" "}
+            <Link className="font-medium text-blue-900 hover:underline" to="/company/signup">
               Signup
             </Link>
-          </span>
+          </p>
         </div>
       </div>
       <ToastContainer />

@@ -1,78 +1,94 @@
-import React from "react";
-import { handleSuccess } from "../../Utilities/ToastMSG";
-import {API_BASEURL} from "../../Utilities/constant"
+import React, { useState } from "react";
+import { handleSuccess, handleError } from "../../Utilities/ToastMSG";
+import { API_BASEURL } from "../../Utilities/constant";
 
-const HRCard = ({ hr_id, hr_name, email, created_at }) => {
+const HRCard = ({ hr_id, hr_name, email, created_at, refreshHRList }) => {
+  const [showConfirm, setShowConfirm] = useState(false);
+
   const deleteHR = async () => {
-    const confirm = prompt("Are you sure !! \nType YES or NO");
-    if (confirm === "NO") {
-      return;
-    }
-    if (confirm === "YES") {
-      try {
-        const url = `${API_BASEURL}/company/deletehr${hr_id}`;
-        const response = await fetch(url, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: localStorage.getItem("jwtToken"),
-          },
-        });
+    try {
+      const url = `${API_BASEURL}/company/deletehr${hr_id}`;
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: localStorage.getItem("jwtToken"),
+        },
+      });
 
-        const result = await response.json();
-        const { message, success, error } = result;
+      const result = await response.json();
+      const { message, success, error } = result;
 
-        if (success) {
-          handleSuccess(message);
-        } else if (!success) {
-          handleError(message);
-        } else if (error) {
-          const details = error?.details[0].message;
-          handleError(details);
-        }
-      } catch (error) {
-        handleError(error);
+      if (success) {
+        handleSuccess(message);
+        refreshHRList(); // Re-call the parent API to update the state
+      } else if (!success) {
+        handleError(message);
+      } else if (error) {
+        const details = error?.details[0].message;
+        handleError(details);
       }
+    } catch (error) {
+      handleError(error);
     }
+    setShowConfirm(false); // Close the confirmation popup
   };
 
   return (
-    <>
-      <section className="max-w-96 rounded-lg border border-gray-200 p-4 shadow-sm transition hover:shadow-lg sm:p-6">
-        <div className="flex gap-4 m-2">
-          <div className=" border-2 rounded p-2 text-white">
-            <img
-              className="w-4 h-4"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE-zwWv8bp1lh4vW8nzkdyXESlZV0Qdciwlw&s"
-              alt=""
-            />
+    <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="bg-blue-500 text-white rounded-full p-3">
+          <img
+            className="w-6 h-6"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE-zwWv8bp1lh4vW8nzkdyXESlZV0Qdciwlw&s"
+            alt="HR Icon"
+          />
+        </div>
+        <h3 className="text-lg font-semibold text-gray-800">Name: {hr_name}</h3>
+      </div>
+      <div className="text-sm text-gray-600 space-y-2">
+        <p>
+          <strong>ID:</strong> {hr_id}
+        </p>
+        <p>
+          <strong>Email:</strong> {email}
+        </p>
+        <p>
+          <strong>Created At:</strong> {created_at}
+        </p>
+      </div>
+      <button
+        onClick={() => setShowConfirm(true)}
+        className="mt-4 w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition"
+      >
+        Delete HR
+      </button>
+
+      {/* Confirmation Popup */}
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Are you sure you want to delete this HR?
+            </h2>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="bg-gray-300 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-400 transition"
+              >
+                No
+              </button>
+              <button
+                onClick={deleteHR}
+                className="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition"
+              >
+                Yes
+              </button>
+            </div>
           </div>
-
-          <h3 className="mt-0.5 text-lg font-medium text-gray-900">
-            Name : {hr_name}
-          </h3>
         </div>
-
-        <div className="flex flex-col gap-2 m-2">
-          <h2 className="mt-2 line-clamp-3">
-            ID : {hr_id}
-          </h2>
-          <h2 className="mt-2 line-clamp-3">
-            Email : {email}
-          </h2>
-          <h2 className="mt-2 line-clamp-3">
-            Created At : {created_at}
-          </h2>
-        </div>
-
-        <button
-          onClick={deleteHR}
-          className="border-2 border-red-600 rounded-md m-2 py-2 px-4 group mt-4 inline-flex items-center gap-1 text-sm font-medium text-red-600 hover:bg-red-400 hover:text-white"
-        >
-          Delete HR
-        </button>
-      </section>
-    </>
+      )}
+    </div>
   );
 };
 

@@ -1,15 +1,16 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
-import {handleError, handleSuccess} from '../../../Utilities/ToastMSG'
-
+import { handleError } from "../../../Utilities/ToastMSG";
 import HRNavbar from "../Navbar/HRNavbar";
+import Footer from "../../components/Footer";
 import AdminJobCard from "../../assets/AdminJobCard";
 
-import {API_BASEURL} from "../../../Utilities/constant"
+import { API_BASEURL } from "../../../Utilities/constant";
 
 const AllJobs = () => {
   const [data, setData] = useState([]);
 
+  // Fetching all jobs
   const getJobs = async () => {
     try {
       const jwtToken = localStorage.getItem("jwtToken");
@@ -47,6 +48,7 @@ const AllJobs = () => {
     getJobs();
   }, []);
 
+  // Display job cards
   const DisplayCard = ({ data }) => {
     if (data && data.length > 0) {
       return data.map((job) => (
@@ -75,9 +77,17 @@ const AllJobs = () => {
   return (
     <>
       <HRNavbar />
-      <div className="my-10 p-4 ">
-        <DisplayCard data={data} />
-      </div>
+      <section className="bg-gradient-to-b from-blue-100 to-blue-300 min-h-screen py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-center text-3xl md:text-4xl font-bold text-blue-800 mb-8">
+            All Jobs
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <DisplayCard data={data} />
+          </div>
+        </div>
+      </section>
+      <Footer />
     </>
   );
 };
