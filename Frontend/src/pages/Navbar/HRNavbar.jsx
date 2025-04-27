@@ -22,7 +22,7 @@ const HRNavbar = () => {
 
   return (
     <>
-      <header className="bg-blue-800 text-white shadow-md">
+      <header className="bg-blue-500 text-white shadow-md">
         <div className="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             {/* Logo and Welcome Message */}

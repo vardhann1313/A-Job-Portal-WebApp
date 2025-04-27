@@ -6,7 +6,7 @@ const Footer = () => {
 
   return (
     <div>
-      <footer className="bg-blue-800 text-white">
+      <footer className="bg-blue-500 text-white">
         <div className="mx-auto max-w-screen-xl px-4 py-6 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center sm:flex-row sm:justify-between">
             {/* Logo */}
