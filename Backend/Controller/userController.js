@@ -152,7 +152,7 @@ const getAllJobs = async (req, res) => {
 
     const seeker_id = req.user._id;
 
-    const query = `SELECT j.*, c.company_name FROM JOB j LEFT JOIN Company c ON j.company_id = c.company_id WHERE is_active = true AND job_id NOT IN (SELECT job_id FROM Application WHERE seeker_id = ${seeker_id})`;
+    const query = `SELECT j.*, c.company_name FROM Job j LEFT JOIN Company c ON j.company_id = c.company_id WHERE is_active = true AND job_id NOT IN (SELECT job_id FROM Application WHERE seeker_id = ${seeker_id})`;
     const [data] = await conn.execute(query);
 
     if (data.AffectedRows == 0) {
@@ -168,6 +168,7 @@ const getAllJobs = async (req, res) => {
       data,
     });
   } catch (error) {
+    console.log(error)
     return res.status(500).json({
       message: "Something went wrong !",
       success: false,
