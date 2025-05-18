@@ -1,4 +1,4 @@
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent`;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent`;
 
 async function callGemini(prompt) {
   try {

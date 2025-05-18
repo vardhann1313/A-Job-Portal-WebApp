@@ -14,7 +14,7 @@ const Navbar = () => {
           {/* Version Badge */}
           <div className="flex items-center">
             <h1 className="text-lg md:text-xl font-semibold bg-white text-blue-800 px-4 py-2 rounded-md shadow-sm">
-              JP - 2.0
+              JP
             </h1>
           </div>
         </div>

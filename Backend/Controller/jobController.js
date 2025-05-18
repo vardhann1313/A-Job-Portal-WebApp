@@ -288,7 +288,7 @@ const get_score = async (req, res) => {
 
     // Destructure data from query ----
     const jd_text = result[0].requirements;
-    const resume_text = extractTextFromPdfBuffer(result[0].resume);
+    const resume_text = await extractTextFromPdfBuffer(result[0].resume);
 
     // Calling gemini for score ----
     const score = await getMatchScore(jd_text, resume_text);
