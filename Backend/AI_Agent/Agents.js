@@ -6,14 +6,26 @@ async function extractTextFromPdfBuffer(buffer) {
 }
 
 async function getMatchScore(resumeText, jdText) {
-  const prompt = `Given the following resume and job description, provide only a matching score from 0 to 100. Just reply with the number.
-    Resume: ${resumeText}
-    Job Description: ${jdText}`;
+  const prompt = `You are a resume-JD matching system. Analyze the resume against the job description and return ONLY a numerical score between 0-100.
 
-  const result = await callGemini(prompt);
+Scoring criteria:
+- Skills match (40 points): Technical and soft skills alignment
+- Experience relevance (30 points): Years and domain experience match
+- Education requirements (15 points): Degree and certifications
+- Job responsibilities (15 points): Past work aligns with JD duties
 
-  // Extract only number (optional safety)
-  const score = parseInt(result.match(/\d+/)?.[0]) || 0;
+Resume:
+${resumeText}
+
+Job Description:
+${jdText}
+
+Return ONLY the final score as a number (0-100). No explanation, no text, just the number.`;
+
+const result = await callGemini(prompt);
+
+// Extract only number (optional safety)
+const score = parseInt(result.match(/\d+/)?.[0]) || 0;
 
   return score;
 }
